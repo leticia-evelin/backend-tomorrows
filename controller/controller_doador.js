@@ -63,7 +63,25 @@
     }
  };
 
+ //função para excluir um doador pelo id, irá para o model
+ const deletarDoador = async function(idDoador){
+
+    if(idDoador == '' || idDoador == undefined || isNaN(idDoador)){
+        return message.ERROR_REQUIRED_ID
+    } else {
+
+        let status = await doadorDAO.deleteDoador(idDoador);
+
+        if(status)
+            return message.DELETED_ITEM
+        else 
+            return message.ERROR_INTERNAL_SERVER    
+
+    }
+ };
+
  module.exports = {
      selecionarTodosDoadores,
-     inserirDoador
+     inserirDoador,
+     deletarDoador
  }

@@ -52,6 +52,19 @@ const insertDoador = async function(dadosDoador){
         return false;    
 }
 
+//Excluir um registro no banco
+const deleteDoador = async function(idDoador){
+
+    let sql = `delete from tbl_doador where id = ${idDoador}`
+
+    let result = await prisma.$executeRawUnsafe(sql);
+
+    if(result)
+        return true
+    else    
+        return false;    
+}
+
 const selectLastId = async function(){
     //script para retornar apenas o última registro inserido na tabela  
     let sql = 'select * from tbl_doador order by id desc limit 1';
@@ -64,8 +77,10 @@ const selectLastId = async function(){
         return false;    
 }
 
+
 module.exports = {
     selectAllDoador,
     insertDoador,
-    selectLastId
+    selectLastId,
+    deleteDoador
 }

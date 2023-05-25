@@ -84,6 +84,17 @@ app.use((request, response, next) => {
 
     });
 
+    //Excluir um Doador pelo id
+    app.delete('/v1/tomorrows-water/doador/:id', cors(), async function(request, response){
+
+        let idDoador = request.params.id;
+
+        let resultDeleteDados = await controllerDoador.deletarDoador(idDoador);
+
+        response.status(resultDeleteDados.status);
+        response.json(resultDeleteDados);
+
+    });
 
     app.listen(8080, function(){
         console.log('Servidor aguardando requisições na porta 8080');

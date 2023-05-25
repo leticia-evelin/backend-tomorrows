@@ -48,7 +48,7 @@ app.use((request, response, next) => {
    var controllerDoador = require('./controller/controller_doador.js');
    var message = require('./controller/modulo/config.js');
 
-    //Retorna todos os dados do doador
+    //Retorna todos os dados do Doador
     app.get('/v1/tomorrows-water/doador', cors(), async function(request, response){
 
         //Solicita a controller e retorna todos os alunos do banco de dados
@@ -57,6 +57,30 @@ app.use((request, response, next) => {
         //Valida se existem registros para retornar na requisição
         response.status(dados.status)
         response.json(dados)
+
+    });
+
+    //Inserir um novo Doador
+    app.post('/v1/tomorrows-water/doador', cors(), bodyJSON, async function(request, response){
+
+        //chega em formato de array
+        let contentType = request.headers['content-type'];
+
+        if(String(contentType).toLocaleLowerCase() == 'application/json'){
+
+            //recebe os dados encaminhados no body da requisição
+            let dadosBody = request.body;
+
+            // envia para a controller
+            let resultInsertDados = await controllerDoador.inserirDoador(dadosBody);
+
+            response.status(resultInsertDados.status);
+            response.json(resultInsertDados);
+
+        } else {
+            response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+            response.json(message.ERROR_INVALID_CONTENT_TYPE);
+        }
 
     });
 

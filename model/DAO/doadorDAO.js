@@ -27,7 +27,45 @@ const selectAllDoador = async function(){
       
 }
 
+//Inserir um novo registro no banco
+const insertDoador = async function(dadosDoador){
+
+    let sql = `insert into tbl_doador
+    (nome, 
+     email, 
+     cpf, 
+     data_nascimento
+    )
+    values
+    ('${dadosDoador.nome}',
+     '${dadosDoador.email}',
+     '${dadosDoador.cpf}',
+     '${dadosDoador.data_nascimento}'
+
+    )`;
+
+    let result = await prisma.$executeRawUnsafe(sql);
+
+    if (result)
+        return true;
+    else 
+        return false;    
+}
+
+const selectLastId = async function(){
+    //script para retornar apenas o última registro inserido na tabela  
+    let sql = 'select * from tbl_doador order by id desc limit 1';
+
+    let rsDoador = await prisma.$queryRawUnsafe(sql);
+
+    if(rsDoador.length > 0)
+        return rsDoador[0].id;
+    else
+        return false;    
+}
 
 module.exports = {
-    selectAllDoador
+    selectAllDoador,
+    insertDoador,
+    selectLastId
 }

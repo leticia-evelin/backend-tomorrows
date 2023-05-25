@@ -5,7 +5,7 @@
  * Versão: 1.0
  **************************************************************/
 
-
+//Import da biblioteca do prisma client 
 var {PrismaClient} = require('@prisma/client');
 
 var prisma = new PrismaClient();
@@ -16,10 +16,11 @@ const selectAllDoador = async function(){
 
     let sql = 'select * from tbl_doador';
 
+    //rs = result set
     let rsDoador = await prisma.$queryRawUnsafe(sql);
 
     if(rsDoador.length > 0){
-        return rsDoador
+        return rsDoador;
     } else {
         return false;
     }

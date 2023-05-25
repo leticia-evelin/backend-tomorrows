@@ -6,8 +6,9 @@
  **************************************************************/
 
 
- var doadorDAO = require('../doadorDAO.js');
- var { selectAllDoador } = require('../doadorDAO.js');
+ var doadorDAO = require('../model/DAO/doadorDAO.js');
+ var message = require('./modulo/config.js');
+
 
 
  //função para retornar todos os itens da tabela recebidos do model
@@ -26,7 +27,7 @@
         return dadosJSON;
 
     } else {
-        return false;
+        return message.ERROR_NOT_FOUND;
     }
  };
 

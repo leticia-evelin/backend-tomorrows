@@ -34,13 +34,19 @@ app.use((request, response, next) => {
 
 });
 
+    /***************************************
+     * EndPoint: Tabela do doador
+     * Versão: 1.0
+     * Data: 25/05/2023
+     ***************************************/
 
   //Criando uma const para realizar o processo de padronização de dados 
     //que vão chegar no body da requisição
     const bodyJSON = bodyParser.json();
 
 
-    var controllerDoador = require('./model/DAO/controller/controller_doador.js');
+   var controllerDoador = require('./controller/controller_doador.js');
+   var message = require('./controller/modulo/config.js');
 
     //Retorna todos os dados do doador
     app.get('/v1/tomorrows-water/doador', cors(), async function(request, response){
@@ -49,17 +55,8 @@ app.use((request, response, next) => {
         let dados = await controllerDoador.selecionarTodosDoadores();
 
         //Valida se existem registros para retornar na requisição
-        // response.status(dados.status)
-        // response.json(dados)
-
-
-        if(dados){
-            response.json(dados);
-            response.status(200);
-        } else {
-            response.json();        // DAR UMA OLHADA NOS RESPONSE
-            response.status(404);
-        }
+        response.status(dados.status)
+        response.json(dados)
 
     });
 

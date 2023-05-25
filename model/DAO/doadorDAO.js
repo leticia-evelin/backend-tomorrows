@@ -65,6 +65,23 @@ const deleteDoador = async function(idDoador){
         return false;    
 }
 
+const updateDoador = async function(dadosDoador){
+
+    let sql = `update tbl_doador set
+    nome = '${dadosDoador.nome}',
+    email = '${dadosDoador.email}',
+    cpf = '${dadosDoador.cpf}',
+    data_nascimento = '${dadosDoador.data_nascimento}'
+    where id = ${dadosDoador.id}`
+
+    let result = await prisma.$executeRawUnsafe(sql);
+
+    if(result)
+        return true;
+    else 
+        return false;    
+}
+
 const selectLastId = async function(){
     //script para retornar apenas o última registro inserido na tabela  
     let sql = 'select * from tbl_doador order by id desc limit 1';
@@ -82,5 +99,6 @@ module.exports = {
     selectAllDoador,
     insertDoador,
     selectLastId,
-    deleteDoador
+    deleteDoador,
+    updateDoador
 }

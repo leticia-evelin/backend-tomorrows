@@ -35,9 +35,9 @@
 //função para receber os dados do app e enviar para o model para inserir novo item
  const inserirDoador = async function(dadosDoador){
 
-    if(dadosDoador.nome == '' || dadosDoador.nome == undefined || dadosDoador.nome.length > 50 ||
-       dadosDoador.email == '' || dadosDoador.email == undefined || dadosDoador.email.length > 255 ||
-       dadosDoador.cpf == '' || dadosDoador.cpf == undefined || dadosDoador.cpf.length > 45 ||
+    if(dadosDoador.nome            == '' || dadosDoador.nome            == undefined || dadosDoador.nome.length            > 50 ||
+       dadosDoador.email           == '' || dadosDoador.email           == undefined || dadosDoador.email.length          > 255 ||
+       dadosDoador.cpf             == '' || dadosDoador.cpf             == undefined || dadosDoador.cpf.length             > 45 ||
        dadosDoador.data_nascimento == '' || dadosDoador.data_nascimento == undefined || dadosDoador.data_nascimento.length > 10
     ){
         return message.ERROR_REQUIRED_DATA;
@@ -80,8 +80,39 @@
     }
  };
 
+ const atualizarDoador = async function(dadosDoador, idDoador){
+
+    if(dadosDoador.nome            == '' || dadosDoador.nome            == undefined || dadosDoador.nome.length            > 50 ||
+       dadosDoador.email           == '' || dadosDoador.email           == undefined || dadosDoador.email.length          > 255 ||
+       dadosDoador.cpf             == '' || dadosDoador.cpf             == undefined || dadosDoador.cpf.length             > 45 ||
+       dadosDoador.data_nascimento == '' || dadosDoador.data_nascimento == undefined || dadosDoador.data_nascimento.length > 10
+    ){
+        return message.ERROR_REQUIRED_DATA;
+
+    } else if(idDoador == '' || idDoador == undefined || isNaN(idDoador)){
+        return message.ERROR_REQUIRED_ID;
+        
+    } else {
+        dadosDoador.id = idDoador;
+
+        let status = await doadorDAO.updateDoador(dadosDoador);
+
+        if(status){
+            let dadosJSON = {};
+            let doadorId = await doadorDAO.selectLastId();
+            dadosDoador.id = doadorId;
+
+            dadosJSON.status = message.UPDATED_ITEM.status;
+            dadosJSON.doador = dadosDoador;
+            return dadosJSON;
+        } else 
+            return message.ERROR_INTERNAL_SERVER;
+    }
+ }
+
  module.exports = {
      selecionarTodosDoadores,
      inserirDoador,
-     deletarDoador
+     deletarDoador,
+     atualizarDoador
  }

@@ -96,6 +96,20 @@ app.use((request, response, next) => {
 
     });
 
+    //Atualiza Doador pelo id
+    app.put('/v1/tomorrows-water/doador/:id', cors(), bodyJSON, async function(request, response){
+
+        let dadosBody = request.body;
+
+        let idDoador = request.params.id;
+
+        let resultUpdateDados = await controllerDoador.atualizarDoador(dadosBody, idDoador);
+
+        response.status(resultUpdateDados.status);
+        response.json(resultUpdateDados);
+
+    });
+
     app.listen(8080, function(){
         console.log('Servidor aguardando requisições na porta 8080');
     });         

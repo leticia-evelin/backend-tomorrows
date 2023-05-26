@@ -19,7 +19,7 @@
  /**********************************Constantes de sucesso************************************/
  const UPDATED_ITEM = {status: 200, message: 'Registro atualizado com sucesso!'};
  const CREATED_ITEM = {status: 201, message: 'Registro criado com sucesso!'};
- const DELETED_ITEM = {status: 200, message: 'Registro apagado com sucesso!'};
+ const DELETED_ITEM = {status: 200, message: 'Registro excluído com sucesso!'};
 
 
 

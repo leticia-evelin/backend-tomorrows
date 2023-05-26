@@ -110,6 +110,53 @@ app.use((request, response, next) => {
 
     });
 
+
+    /***************************************
+    * EndPoint: Tabela dos produtos
+    * Versão: 1.0
+    * Data: 26/05/2023
+    ***************************************/
+
+    //Retorna todos os Produtos
+    app.get('/v1/tomorrows-water/produto', cors(), async function(request, response){
+
+    //Solicita a controller e retorna todos os alunos do banco de dados
+    let dados = await controllerProdutos.selecionarTodosDoadores();
+
+    //Valida se existem registros para retornar na requisição
+    response.status(dados.status)
+    response.json(dados)
+
+    });
+    
+    //Inserir um novo Produto
+    app.post('/v1/tomorrows-water/produto', cors(), bodyJSON, async function(request, response){
+
+        //chega em formato de array
+        let contentType = request.headers['content-type'];
+
+        if(String(contentType).toLocaleLowerCase() == 'application/json'){
+
+            //recebe os dados encaminhados no body da requisição
+            let dadosBody = request.body;
+
+            dadosBody.id_ong = request.body.id_ong;
+
+            // envia para a controller
+            let resultInsertDados = await controllerProdutos.inserirProdutos(dadosBody);
+
+            response.status(resultInsertDados.status);
+            response.json(resultInsertDados);
+
+        } else {
+            response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+            response.json(message.ERROR_INVALID_CONTENT_TYPE);
+        }
+
+    });
+
+
+
     app.listen(8080, function(){
         console.log('Servidor aguardando requisições na porta 8080');
     });         

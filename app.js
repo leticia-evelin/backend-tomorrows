@@ -46,7 +46,8 @@ app.use((request, response, next) => {
 
 
    var controllerDoador = require('./controller/controller_doador.js');
-   var controllerProduto = require('./controller/controller_produtos.js')
+   var controllerProduto = require('./controller/controller_produtos.js');
+   var controllerProjeto = require('./controller/controller_projetos.js');
    var message = require('./controller/modulo/config.js');
 
     //Retorna todos os dados do Doador
@@ -183,6 +184,51 @@ app.use((request, response, next) => {
 
 });
 
+
+    /***************************************
+    * EndPoint: Tabela dos projetos
+    * Versão: 1.0
+    * Data: 27/05/2023
+    ***************************************/
+
+    //Retorna todos os Projetos
+    app.get('/v1/tomorrows-water/projeto', cors(), async function(request, response){
+
+        //Solicita a controller e retorna todos os alunos do banco de dados
+        let dados = await controllerProjeto.selecionarTodosProjetos();
+    
+        //Valida se existem registros para retornar na requisição
+        response.status(dados.status)
+        response.json(dados)
+    
+    });
+
+    app.post('/v1/tomorrows-water/projeto', cors(), bodyJSON, async function(request, response){
+
+        //chega em formato de array
+        let contentType = request.headers['content-type'];
+
+        if(String(contentType).toLocaleLowerCase() == 'application/json'){
+
+            //recebe os dados encaminhados no body da requisição
+            let dadosBody = request.body;
+
+            dadosBody.id_ong = request.body.id_ong;
+
+            // envia para a controller
+            let resultInsertDados = await controllerProjeto.inserirProjetos(dadosBody);
+
+            response.status(resultInsertDados.status);
+            response.json(resultInsertDados);
+
+        } else {
+            response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+            response.json(message.ERROR_INVALID_CONTENT_TYPE);
+        }
+
+    });
+        
+        
 
     app.listen(8080, function(){
         console.log('Servidor aguardando requisições na porta 8080');

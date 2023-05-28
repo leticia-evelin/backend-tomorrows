@@ -18,7 +18,7 @@
        dadosProdutos.altura           == undefined || dadosProdutos.altura.length > 50 ||
        dadosProdutos.largura          == undefined || dadosProdutos.largura.length > 50 ||
        dadosProdutos.comprimento      == undefined || dadosProdutos.comprimento.length > 50 ||
-         dadosProdutos.tamanho_sigla > 5 ||
+       dadosProdutos.tamanho_sigla > 5 ||
        dadosProdutos.peso             == '' || dadosProdutos.peso      == undefined ||  dadosProdutos.peso > 50 ||
        dadosProdutos.categoria        == '' || dadosProdutos.categoria == undefined || dadosProdutos.categoria > 80 ||
        dadosProdutos.id_ong           == '' || dadosProdutos.id_ong    == null || isNaN(dadosProdutos.id_ong)
@@ -46,6 +46,7 @@
     }
  };
 
+ //função para selecionar todos os regitros
  const selecionarTodosProdutos = async function(){
 
     let dadosProdutos = await produtosDAO.selectAllProdutos();

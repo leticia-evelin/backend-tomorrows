@@ -80,6 +80,7 @@ const deleteProduto = async function(idProduto){
         return false;    
 }
 
+//Atualiza um registro no banco
 const updateProduto = async function(dadosProdutos){
 
     let sql = `update tbl_produtos set
@@ -103,7 +104,6 @@ const updateProduto = async function(dadosProdutos){
     else 
         return false;    
 }
-
 
 const selectLastId = async function(){
     //script para retornar apenas o última registro inserido na tabela  

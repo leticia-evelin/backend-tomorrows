@@ -65,6 +65,7 @@ const deleteDoador = async function(idDoador){
         return false;    
 }
 
+//Atualiza um registro no banco
 const updateDoador = async function(dadosDoador){
 
     let sql = `update tbl_doador set

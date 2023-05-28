@@ -26,7 +26,7 @@ const selectAllProdutos = async function(){
 
 }
 
-    //Inserir um novo registro no banco
+//Inserir um novo registro no banco
 const insertProdutos = async function(dadosProdutos){
 
     let sql = `insert into tbl_produtos

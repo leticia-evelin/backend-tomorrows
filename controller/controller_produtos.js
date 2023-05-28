@@ -67,7 +67,7 @@
  };
 
  
- //função para excluir um produtor pelo id, irá para o model
+ //função para excluir um produto pelo id, irá para o model
  const deletarProduto = async function(idProduto){
 
     if(idProduto == '' || idProduto == undefined || isNaN(idProduto)){

@@ -227,6 +227,34 @@ app.use((request, response, next) => {
         }
 
     });
+
+        
+    //Excluir um Projeto pelo id
+    app.delete('/v1/tomorrows-water/projeto/:id', cors(), async function(request, response){
+
+        let idProjeto = request.params.id;
+
+        let resultDeleteDados = await controllerProjeto.deletarProjeto(idProjeto);
+
+        response.status(resultDeleteDados.status);
+        response.json(resultDeleteDados);
+
+    });
+
+    //Atualiza Projeto pelo id
+    app.put('/v1/tomorrows-water/projeto/:id', cors(), bodyJSON, async function(request, response){
+
+    let dadosBody = request.body;
+
+    let idProjeto = request.params.id;
+
+    let resultUpdateDados = await controllerProjeto.atualizarProjeto(dadosBody, idProjeto);
+
+    response.status(resultUpdateDados.status);
+    response.json(resultUpdateDados);
+
+});
+
         
         
 

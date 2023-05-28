@@ -59,8 +59,58 @@ var message = require('./modulo/config.js');
     }
  };
 
+ //função para excluir um projeto pelo id, irá para o model
+ const deletarProjeto = async function(idProjeto){
+
+    if(idProjeto == '' || idProjeto == undefined || isNaN(idProjeto)){
+        return message.ERROR_REQUIRED_ID
+    } else {
+
+        let status = await projetosDAO.deleteProjetos(idProjeto);
+
+        if(status)
+            return message.DELETED_ITEM
+        else 
+            return message.ERROR_INTERNAL_SERVER    
+
+    }
+ };
+
+ //função para atualizar um projeto
+ const atualizarProjeto = async function(dadosProjetos, idProjeto){
+
+    if(dadosProjetos.nome             == '' || dadosProjetos.nome          == undefined || dadosProjetos.nome.length > 150 ||
+       dadosProjetos.descricao        == '' || dadosProjetos.descricao     == undefined ||
+       dadosProjetos.imagem        == undefined || dadosProjetos.imagem.length > 150 ||
+       dadosProjetos.id_ong           == '' || dadosProjetos.id_ong    == null || isNaN(dadosProjetos.id_ong)
+    ){
+        return message.ERROR_REQUIRED_DATA;
+
+    } else if(idProjeto == '' || idProjeto == undefined || isNaN(idProjeto)){
+        return message.ERROR_REQUIRED_ID;
+        
+    } else {
+        dadosProjetos.id = idProjeto;
+
+        let status = await projetosDAO.updateProjeto(dadosProjetos);
+
+        if(status){
+            let dadosJSON = {};
+            let projetoId = await projetosDAO.selectLastId();
+            dadosProjetos.id = projetoId;
+
+            dadosJSON.status = message.UPDATED_ITEM.status;
+            dadosJSON.projeto = dadosProjetos;
+            return dadosJSON;
+        } else 
+            return message.ERROR_INTERNAL_SERVER;
+    }
+ }
+
 
  module.exports = {
     selecionarTodosProjetos,
-    inserirProjetos
+    inserirProjetos,
+    deletarProjeto,
+    atualizarProjeto
  }

@@ -15,12 +15,13 @@
        dadosProdutos.descricao        == '' || dadosProdutos.descricao     == undefined ||
        dadosProdutos.preco            == '' || dadosProdutos.preco         == undefined || isNaN(dadosProdutos.preco) ||
        dadosProdutos.imagem           == '' || dadosProdutos.imagem        == undefined || dadosProdutos.imagem.length > 150 ||
+       dadosProdutos.altura           == undefined || dadosProdutos.altura.length > 50 ||
        dadosProdutos.largura          == undefined || dadosProdutos.largura.length > 50 ||
        dadosProdutos.comprimento      == undefined || dadosProdutos.comprimento.length > 50 ||
-       dadosProdutos.tamanho_sigla    == undefined || dadosProdutos.tamanho_sigla > 5 ||
+         dadosProdutos.tamanho_sigla > 5 ||
        dadosProdutos.peso             == '' || dadosProdutos.peso      == undefined ||  dadosProdutos.peso > 50 ||
        dadosProdutos.categoria        == '' || dadosProdutos.categoria == undefined || dadosProdutos.categoria > 80 ||
-       dadosProdutos.id_ong           == '' || dadosProdutos.id_ong    == undefined || isNaN(dadosProdutos.id_ong)
+       dadosProdutos.id_ong           == '' || dadosProdutos.id_ong    == null || isNaN(dadosProdutos.id_ong)
     ){
         return message.ERROR_REQUIRED_DATA;
 
@@ -64,7 +65,66 @@
     }
  };
 
+ 
+ //função para excluir um produtor pelo id, irá para o model
+ const deletarProduto = async function(idProduto){
+
+    if(idProduto == '' || idProduto == undefined || isNaN(idProduto)){
+        return message.ERROR_REQUIRED_ID
+    } else {
+
+        let status = await produtosDAO.deleteProduto(idProduto);
+
+        if(status)
+            return message.DELETED_ITEM
+        else 
+            return message.ERROR_INTERNAL_SERVER    
+
+    }
+ };
+
+ const atualizarProduto = async function(dadosProdutos, idProduto){
+
+    if(dadosProdutos.nome             == '' || dadosProdutos.nome          == undefined || dadosProdutos.nome.length > 100 ||
+       dadosProdutos.descricao        == '' || dadosProdutos.descricao     == undefined ||
+       dadosProdutos.cor              == '' || dadosProdutos.cor           == undefined || dadosProdutos.cor.length > 100|| 
+       dadosProdutos.preco            == '' || dadosProdutos.preco         == undefined || isNaN(dadosProdutos.preco) ||
+       dadosProdutos.imagem           == '' || dadosProdutos.imagem        == undefined || dadosProdutos.imagem.length > 150 ||
+       dadosProdutos.altura          == undefined || dadosProdutos.altura.length > 50 ||
+       dadosProdutos.largura          == undefined || dadosProdutos.largura.length > 50 ||
+       dadosProdutos.comprimento      == undefined || dadosProdutos.comprimento.length > 50 ||
+       dadosProdutos.tamanho_sigla > 5 ||
+       dadosProdutos.peso             == '' || dadosProdutos.peso      == undefined ||  dadosProdutos.peso > 50 ||
+       dadosProdutos.categoria        == '' || dadosProdutos.categoria == undefined || dadosProdutos.categoria > 80 ||
+       dadosProdutos.id_ong           == '' || dadosProdutos.id_ong    == null || isNaN(dadosProdutos.id_ong)
+    )
+    {
+        return message.ERROR_REQUIRED_DATA;
+
+    } else if(idProduto == '' || idProduto == undefined || isNaN(idProduto)){
+        return message.ERROR_REQUIRED_ID;
+        
+    } else {
+        dadosProdutos.id = idProduto;
+
+        let status = await produtosDAO.updateProduto(dadosProdutos);
+
+        if(status){
+            let dadosJSON = {};
+            let produtoId = await produtosDAO.selectLastId();
+            dadosProdutos.id = produtoId;
+
+            dadosJSON.status = message.UPDATED_ITEM.status;
+            dadosJSON.produto = dadosProdutos;
+            return dadosJSON;
+        } else 
+            return message.ERROR_INTERNAL_SERVER;
+    }
+ }
+
  module.exports = {
     inserirProdutos,
-    selecionarTodosProdutos
+    selecionarTodosProdutos,
+    deletarProduto,
+    atualizarProduto
  }

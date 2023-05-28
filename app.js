@@ -46,6 +46,7 @@ app.use((request, response, next) => {
 
 
    var controllerDoador = require('./controller/controller_doador.js');
+   var controllerProduto = require('./controller/controller_produtos.js')
    var message = require('./controller/modulo/config.js');
 
     //Retorna todos os dados do Doador
@@ -121,7 +122,7 @@ app.use((request, response, next) => {
     app.get('/v1/tomorrows-water/produto', cors(), async function(request, response){
 
     //Solicita a controller e retorna todos os alunos do banco de dados
-    let dados = await controllerProdutos.selecionarTodosDoadores();
+    let dados = await controllerProduto.selecionarTodosProdutos();
 
     //Valida se existem registros para retornar na requisição
     response.status(dados.status)
@@ -143,7 +144,7 @@ app.use((request, response, next) => {
             dadosBody.id_ong = request.body.id_ong;
 
             // envia para a controller
-            let resultInsertDados = await controllerProdutos.inserirProdutos(dadosBody);
+            let resultInsertDados = await controllerProduto.inserirProdutos(dadosBody);
 
             response.status(resultInsertDados.status);
             response.json(resultInsertDados);
@@ -155,6 +156,32 @@ app.use((request, response, next) => {
 
     });
 
+    
+    //Excluir um Produto pelo id
+    app.delete('/v1/tomorrows-water/produto/:id', cors(), async function(request, response){
+
+        let idProduto = request.params.id;
+
+        let resultDeleteDados = await controllerProduto.deletarProduto(idProduto);
+
+        response.status(resultDeleteDados.status);
+        response.json(resultDeleteDados);
+
+    });
+
+  //Atualiza Produto pelo id
+  app.put('/v1/tomorrows-water/produto/:id', cors(), bodyJSON, async function(request, response){
+
+    let dadosBody = request.body;
+
+    let idProduto = request.params.id;
+
+    let resultUpdateDados = await controllerProduto.atualizarProduto(dadosBody, idProduto);
+
+    response.status(resultUpdateDados.status);
+    response.json(resultUpdateDados);
+
+});
 
 
     app.listen(8080, function(){

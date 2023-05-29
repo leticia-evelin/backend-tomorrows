@@ -34,13 +34,8 @@ app.use((request, response, next) => {
 
 });
 
-    /***************************************
-     * EndPoint: Tabela do doador
-     * Versão: 1.0
-     * Data: 25/05/2023
-     ***************************************/
 
-  //Criando uma const para realizar o processo de padronização de dados 
+    //Criando uma const para realizar o processo de padronização de dados 
     //que vão chegar no body da requisição
     const bodyJSON = bodyParser.json();
 
@@ -48,7 +43,8 @@ app.use((request, response, next) => {
    var controllerDoador = require('./controller/controller_doador.js');
    var controllerProduto = require('./controller/controller_produtos.js');
    var controllerProjeto = require('./controller/controller_projetos.js');
-   var controllerPatrocinador = require('./controller/controller_patrocinador.js')
+   var controllerPatrocinador = require('./controller/controller_patrocinador.js');
+   var controllerRecado = require('./controller/controller_recado.js');
    var message = require('./controller/modulo/config.js');
 
     /***************************************
@@ -368,8 +364,23 @@ app.use((request, response, next) => {
 
     });
 
-
+    /***************************************
+    * EndPoint: Tabela de Recados
+    * Versão: 1.0
+    * Data: 29/05/2023
+    ***************************************/   
     
+    app.get('/v1/tomorrows-water/recado', cors(), async function(request, response){
+
+        let dados = await controllerRecado.selecionarTodosRecados();
+    
+        response.status(dados.status)
+        response.json(dados)
+      
+    });
+
+
+
     /***************************************
     * EndPoint: Tabela de login (dashboard)
     * Versão: 1.0

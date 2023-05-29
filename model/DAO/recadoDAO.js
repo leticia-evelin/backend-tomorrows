@@ -27,12 +27,10 @@ const selectAllRecados = async function(){
 //Retorna um registro filtrado pelo id do banco de dados
 const selectByIdRecado = async function(id){
 
-    //Variável com o script sql para executar no banco de dados
     let sql = `select * from tbl_recado where id = ${id}`;
   
     let rsRecado = await prisma.$queryRawUnsafe(sql);
 
-    //valida se o banco de dados retornou algum registro
     if(rsRecado.length > 0){
         return rsRecado;
     } else {

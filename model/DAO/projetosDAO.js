@@ -1,5 +1,5 @@
 /***************************************************************
- * Objetivo: Realizar a interação do Doador com o Banco de Dados.
+ * Objetivo: Realizar a interação dos Projetos com o Banco de Dados.
  * Data: 27/05/2023
  * Autor: Letícia Evelin
  * Versão: 1.0

@@ -1,5 +1,5 @@
 /***************************************************************
- * Objetivo: Realizar a interação do Doador com o Banco de Dados.
+ * Objetivo: Realizar a interação dos Produtos com o Banco de Dados.
  * Data: 26/05/2023
  * Autor: Letícia Evelin
  * Versão: 1.0
@@ -117,6 +117,22 @@ const selectLastId = async function(){
         return false;    
 }
 
+//Retorna um registro filtrado pelo id do banco de dados
+const selectByIdProduto = async function(id){
+
+    //Variável com o script sql para executar no banco de dados
+    let sql = `select * from tbl_produtos where id = ${id}`;
+  
+    let rsProdutos = await prisma.$queryRawUnsafe(sql);
+
+    //valida se o banco de dados retornou algum registro
+    if(rsProdutos.length > 0){
+        return rsProdutos;
+    } else {
+        return false;
+    }
+}
+
       
 
 module.exports = {
@@ -124,5 +140,6 @@ module.exports = {
     insertProdutos,
     deleteProduto,
     updateProduto,
-    selectLastId
+    selectLastId,
+    selectByIdProduto
 }

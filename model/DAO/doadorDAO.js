@@ -95,11 +95,28 @@ const selectLastId = async function(){
         return false;    
 }
 
+//Retorna um registro filtrado pelo id do banco de dados
+const selectByIdDoador = async function(id){
+
+    //Variável com o script sql para executar no banco de dados
+    let sql = `select * from tbl_doador where id = ${id}`;
+  
+    let rsDoador = await prisma.$queryRawUnsafe(sql);
+
+    //valida se o banco de dados retornou algum registro
+    if(rsDoador.length > 0){
+        return rsDoador;
+    } else {
+        return false;
+    }
+}
+
 
 module.exports = {
     selectAllDoador,
     insertDoador,
     selectLastId,
     deleteDoador,
-    updateDoador
+    updateDoador,
+    selectByIdDoador
 }

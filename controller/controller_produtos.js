@@ -21,7 +21,7 @@
        dadosProdutos.tamanho_sigla > 5 ||
        dadosProdutos.peso             == '' || dadosProdutos.peso      == undefined ||  dadosProdutos.peso > 50 ||
        dadosProdutos.categoria        == '' || dadosProdutos.categoria == undefined || dadosProdutos.categoria > 80 ||
-       dadosProdutos.id_ong           == '' || dadosProdutos.id_ong    == null || isNaN(dadosProdutos.id_ong)
+        dadosProdutos.id_ong    == null || isNaN(dadosProdutos.id_ong)
     ){
         return message.ERROR_REQUIRED_DATA;
 
@@ -123,9 +123,36 @@
     }
  }
 
+ //função para buscar um item filtrando pelo id, será encaminhado para o model
+const buscarIdProduto = async function(id){
+
+    //Validação para o ID
+    if(id == '' || id == undefined || isNaN(id))
+        return message.ERROR_REQUIRED_ID
+    else {     
+
+      //Solicita ao DAO todos os patrocinadores do banco de dados
+      let dadosProdutos = await produtosDAO.selectByIdProduto(id);
+
+      //Cira um objeto do tipo JSON
+      let dadosJSON = {};
+  
+      //Valida se o banco de dados teve registros, 
+      //se sim adiciona o array de patrocinadores em um JSON para retornar ao app
+      if(dadosProdutos){
+          dadosJSON.status = 200;
+          dadosJSON.produto = dadosProdutos;
+          return dadosJSON;
+     } else {
+          return message.ERROR_NOT_FOUND;   
+        }
+    }  
+};
+
  module.exports = {
     inserirProdutos,
     selecionarTodosProdutos,
     deletarProduto,
-    atualizarProduto
+    atualizarProduto,
+    buscarIdProduto
  }

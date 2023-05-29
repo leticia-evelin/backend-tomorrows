@@ -110,9 +110,37 @@
     }
  }
 
+ //função para buscar um item filtrando pelo id, será encaminhado para o model
+const buscarIdDoador = async function(id){
+
+    //Validação para o ID
+    if(id == '' || id == undefined || isNaN(id))
+        return message.ERROR_REQUIRED_ID
+    else {     
+
+      //Solicita ao DAO todos os patrocinadores do banco de dados
+      let dadosDoador = await doadorDAO.selectByIdDoador(id);
+
+      //Cira um objeto do tipo JSON
+      let dadosJSON = {};
+  
+      //Valida se o banco de dados teve registros, 
+      //se sim adiciona o array de patrocinadores em um JSON para retornar ao app
+      if(dadosDoador){
+          dadosJSON.status = 200;
+          dadosJSON.doador = dadosDoador;
+          return dadosJSON;
+     } else {
+          return message.ERROR_NOT_FOUND;   
+        }
+    }  
+};
+
+
  module.exports = {
      selecionarTodosDoadores,
      inserirDoador,
      deletarDoador,
-     atualizarDoador
+     atualizarDoador,
+     buscarIdDoador
  }

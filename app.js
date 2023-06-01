@@ -171,6 +171,9 @@ app.use((request, response, next) => {
 
             dadosBody.id_ong = request.body.id_ong;
 
+    
+    
+          
             // envia para a controller
             let resultInsertDados = await controllerProduto.inserirProdutos(dadosBody);
 
@@ -379,12 +382,49 @@ app.use((request, response, next) => {
       
     });
 
+    //Excluir um Recado pelo id
+    app.delete('/v1/tomorrows-water/recado/:id', cors(), async function(request, response){
+
+        let idRecado = request.params.id;
+
+        let resultDeleteDados = await controllerRecado.deletarRecado(idRecado);
+
+        response.status(resultDeleteDados.status);
+        response.json(resultDeleteDados);
+
+    });
+
+    app.post('/v1/tomorrows-water/recado', cors(), bodyJSON, async function(request, response){
+
+        //chega em formato de array
+        let contentType = request.headers['content-type'];
+
+        if(String(contentType).toLocaleLowerCase() == 'application/json'){
+
+            //recebe os dados encaminhados no body da requisição
+            let dadosBody = request.body;
+
+            // envia para a controller
+            let resultInsertDados = await controllerRecado.inserirRecado(dadosBody);
+
+            response.status(resultInsertDados.status);
+            response.json(resultInsertDados);
+
+        } else {
+            response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+            response.json(message.ERROR_INVALID_CONTENT_TYPE);
+        }
+
+    });
+
+
+
 
 
     /***************************************
     * EndPoint: Tabela de login (dashboard)
     * Versão: 1.0
-    * Data: 29/05/2023
+    * Data: /05/2023
     ***************************************/   
     
 

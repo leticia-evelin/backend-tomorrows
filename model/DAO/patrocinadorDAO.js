@@ -55,7 +55,7 @@ const insertPatrocinador = async function(dadosPatrocinador){
     ('${dadosPatrocinador.razao_social}',
      '${dadosPatrocinador.cnpj}',
      '${dadosPatrocinador.email}',
-     '${dadosPatrocinador.id_ong}'
+     '${dadosPatrocinador.ong[0].id_ong}'
     )`;
 
     let result = await prisma.$executeRawUnsafe(sql);

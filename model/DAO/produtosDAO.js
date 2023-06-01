@@ -56,7 +56,7 @@ const insertProdutos = async function(dadosProdutos){
      '${dadosProdutos.tamanho_sigla}',
      '${dadosProdutos.peso}',
      '${dadosProdutos.categoria}',
-     '${dadosProdutos.ong.id_ong[0]}'
+     '${dadosProdutos.id_ong}'
 
     )`;
 

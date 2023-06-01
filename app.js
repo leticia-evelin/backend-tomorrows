@@ -45,6 +45,7 @@ app.use((request, response, next) => {
    var controllerProjeto = require('./controller/controller_projetos.js');
    var controllerPatrocinador = require('./controller/controller_patrocinador.js');
    var controllerRecado = require('./controller/controller_recado.js');
+   var controllerAdministrador = require('./controller/controller_administrador.js')
    var message = require('./controller/modulo/config.js');
 
     /***************************************
@@ -53,7 +54,7 @@ app.use((request, response, next) => {
     * Data: 25/05/2023
     ***************************************/
 
-    //Retorna todos os dados do Doador
+    //EndPoint: Retorna todos os dados do Doador
     app.get('/v1/tomorrows-water/doador', cors(), async function(request, response){
 
         //Solicita a controller e retorna todos os alunos do banco de dados
@@ -77,7 +78,7 @@ app.use((request, response, next) => {
 
     });
     
-    //Inserir um novo Doador
+    //EndPoint: Inserir um novo Doador
     app.post('/v1/tomorrows-water/doador', cors(), bodyJSON, async function(request, response){
 
         //chega em formato de array
@@ -101,7 +102,7 @@ app.use((request, response, next) => {
 
     });
 
-    //Excluir um Doador pelo id
+    //EndPoint: Excluir um Doador pelo id
     app.delete('/v1/tomorrows-water/doador/:id', cors(), async function(request, response){
 
         let idDoador = request.params.id;
@@ -113,7 +114,7 @@ app.use((request, response, next) => {
 
     });
 
-    //Atualiza Doador pelo id
+    //EndPoint: Atualiza Doador pelo id
     app.put('/v1/tomorrows-water/doador/:id', cors(), bodyJSON, async function(request, response){
 
         let dadosBody = request.body;
@@ -134,7 +135,7 @@ app.use((request, response, next) => {
     * Data: 26/05/2023
     ***************************************/
 
-    //Retorna todos os Produtos
+    //EndPoint: Retorna todos os Produtos
     app.get('/v1/tomorrows-water/produto', cors(), async function(request, response){
 
     //Solicita a controller e retorna todos os alunos do banco de dados
@@ -146,7 +147,7 @@ app.use((request, response, next) => {
 
     });
     
-     //EndPoint: Retorna dados do produto pelo id
+    //EndPoint: Retorna dados do produto pelo id
     app.get('/v1/tomorrows-water/produto/:id', cors(), async function(request, response){
         
         let idProduto = request.params.id
@@ -158,7 +159,7 @@ app.use((request, response, next) => {
 
     });
     
-    //Inserir um novo Produto
+    //EndPoint: Inserir um novo Produto
     app.post('/v1/tomorrows-water/produto', cors(), bodyJSON, async function(request, response){
 
         //chega em formato de array
@@ -188,7 +189,7 @@ app.use((request, response, next) => {
     });
 
     
-    //Excluir um Produto pelo id
+    //EndPoint: Excluir um Produto pelo id
     app.delete('/v1/tomorrows-water/produto/:id', cors(), async function(request, response){
 
         let idProduto = request.params.id;
@@ -200,7 +201,7 @@ app.use((request, response, next) => {
 
     });
 
-  //Atualiza Produto pelo id
+   //EndPoint: Atualiza Produto pelo id
   app.put('/v1/tomorrows-water/produto/:id', cors(), bodyJSON, async function(request, response){
 
     let dadosBody = request.body;
@@ -221,7 +222,7 @@ app.use((request, response, next) => {
     * Data: 27/05/2023
     ***************************************/    
 
-    //Retorna todos os Projetos
+    //EndPoint: Retorna todos os Projetos
     app.get('/v1/tomorrows-water/projeto', cors(), async function(request, response){
 
         //Solicita a controller e retorna todos os alunos do banco de dados
@@ -233,6 +234,7 @@ app.use((request, response, next) => {
     
     });
 
+    //EndPoint: Inserir um novo projeto
     app.post('/v1/tomorrows-water/projeto', cors(), bodyJSON, async function(request, response){
 
         //chega em formato de array
@@ -259,7 +261,7 @@ app.use((request, response, next) => {
     });
 
         
-    //Excluir um Projeto pelo id
+    //EndPoint: Excluir um Projeto pelo id
     app.delete('/v1/tomorrows-water/projeto/:id', cors(), async function(request, response){
 
         let idProjeto = request.params.id;
@@ -271,7 +273,7 @@ app.use((request, response, next) => {
 
     });
 
-    //Atualiza Projeto pelo id
+    //EndPoint: Atualiza Projeto pelo id
     app.put('/v1/tomorrows-water/projeto/:id', cors(), bodyJSON, async function(request, response){
 
         let dadosBody = request.body;
@@ -291,7 +293,7 @@ app.use((request, response, next) => {
     * Data: 29/05/2023
     ***************************************/  
 
-    //Retorna todos os Patrocinadores
+    //EndPoint: Retorna todos os Patrocinadores
     app.get('/v1/tomorrows-water/patrocinador', cors(), async function(request, response){
 
         //Solicita a controller e retorna todos os alunos do banco de dados
@@ -315,6 +317,7 @@ app.use((request, response, next) => {
 
     });
 
+    //EndPoint: Inserir um novo patrocinador
     app.post('/v1/tomorrows-water/patrocinador', cors(), bodyJSON, async function(request, response){
 
         //chega em formato de array
@@ -340,7 +343,7 @@ app.use((request, response, next) => {
 
     });
 
-    //Excluir um Patrocinador pelo id
+    //EndPoint: Excluir um Patrocinador pelo id
      app.delete('/v1/tomorrows-water/patrocinador/:id', cors(), async function(request, response){
 
         let idPatrocinador = request.params.id;
@@ -353,7 +356,7 @@ app.use((request, response, next) => {
     });
 
 
-    // Atualiza Patrocinador pelo id
+    // EndPoint: Atualiza Patrocinador pelo id
     app.put('/v1/tomorrows-water/patrocinador/:id', cors(), bodyJSON, async function(request, response){
 
         let dadosBody = request.body;
@@ -373,6 +376,7 @@ app.use((request, response, next) => {
     * Data: 29/05/2023
     ***************************************/   
     
+    //EndPoint: Retornar todos os registros
     app.get('/v1/tomorrows-water/recado', cors(), async function(request, response){
 
         let dados = await controllerRecado.selecionarTodosRecados();
@@ -382,7 +386,7 @@ app.use((request, response, next) => {
       
     });
 
-    //Excluir um Recado pelo id
+    //EndPoint: Excluir um Recado pelo id
     app.delete('/v1/tomorrows-water/recado/:id', cors(), async function(request, response){
 
         let idRecado = request.params.id;
@@ -394,6 +398,7 @@ app.use((request, response, next) => {
 
     });
 
+    //EndPoint: Inserir um novo recado
     app.post('/v1/tomorrows-water/recado', cors(), bodyJSON, async function(request, response){
 
         //chega em formato de array
@@ -419,17 +424,71 @@ app.use((request, response, next) => {
 
 
 
-
-
     /***************************************
-    * EndPoint: Tabela de login (dashboard)
+    * EndPoint: Tabela de administrador (dashboard)
     * Versão: 1.0
-    * Data: /05/2023
+    * Data: 01/06/2023
     ***************************************/   
     
+    //EndPoint: Retorna todos os dados do Administrador
+    app.get('/v1/tomorrows-water/administrador', cors(), async function(request, response){
 
-
+        let dados = await controllerAdministrador.selecionarTodosAdministradores();
     
+        response.status(dados.status)
+        response.json(dados)
+      
+    });
+
+    //EndPoint: Inserir um novo administrador
+    app.post('/v1/tomorrows-water/administrador', cors(), bodyJSON, async function(request, response){
+
+        //chega em formato de array
+        let contentType = request.headers['content-type'];
+
+        if(String(contentType).toLocaleLowerCase() == 'application/json'){
+
+            //recebe os dados encaminhados no body da requisição
+            let dadosBody = request.body;
+
+            // envia para a controller
+            let resultInsertDados = await controllerAdministrador.inserirAdministrador(dadosBody);
+
+            response.status(resultInsertDados.status);
+            response.json(resultInsertDados);
+
+        } else {
+            response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+            response.json(message.ERROR_INVALID_CONTENT_TYPE);
+        }
+
+    });
+
+    //EndPoint: Excluir um Administrador pelo id
+     app.delete('/v1/tomorrows-water/administrador/:id', cors(), async function(request, response){
+
+        let idAdm = request.params.id;
+
+        let resultDeleteDados = await controllerAdministrador.deletarAdministrador(idAdm);
+
+        response.status(resultDeleteDados.status);
+        response.json(resultDeleteDados);
+
+    });
+
+    // EndPoint: Atualiza Administrador pelo id
+    app.put('/v1/tomorrows-water/administrador/:id', cors(), bodyJSON, async function(request, response){
+
+        let dadosBody = request.body;
+
+        let idAdm = request.params.id;
+
+        let resultUpdateDados = await controllerAdministrador.atualizarAdministrador(dadosBody, idAdm);
+
+        response.status(resultUpdateDados.status);
+        response.json(resultUpdateDados);
+
+    });
 
 
 

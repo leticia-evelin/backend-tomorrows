@@ -11,6 +11,7 @@
  const ERROR_INTERNAL_SERVER = {status: 500, message: 'Erro interno no servidor de banco de dados.'};
  const ERROR_REQUIRED_ID = {status: 400, message: 'O atributo id é obrigatório na requisição!'};
  const ERROR_REQUIRED_NAME = {status: 400, message: 'O atributo nome é obrigatório na requisição!'};
+ const ERROR_INVALID_EMAIL = {status: 400, message: 'Endereço de e-mail fornecido inválido'}
  const ERROR_NOT_FOUND = {status: 404, message: 'Nenhum registro encontrado na requisição!'}
  const ERROR_INVALID_CONTENT_TYPE = {status: 415, message: 'O tipo de mídia Content type da solicitação não é compatível com o servidor, [application/json].'};
 
@@ -33,5 +34,6 @@
     ERROR_NOT_FOUND,
     ERROR_REQUIRED_NAME,
     ERROR_REQUIRED_ID,
-    ERROR_INTERNAL_SERVER
+    ERROR_INTERNAL_SERVER,
+    ERROR_INVALID_EMAIL
  }

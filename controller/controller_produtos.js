@@ -97,7 +97,7 @@
        dadosProdutos.tamanho_sigla > 5 ||
        dadosProdutos.peso             == '' || dadosProdutos.peso      == undefined ||  dadosProdutos.peso > 50 ||
        dadosProdutos.categoria        == '' || dadosProdutos.categoria == undefined || dadosProdutos.categoria > 80 ||
-       dadosProdutos.id_ong[0]           == '' || dadosProdutos.id_ong[0]    == null || isNaN(dadosProdutos.id_ong[0])
+       dadosProdutos.id_ong          == '' || dadosProdutos.id_ong[0]    == null || isNaN(dadosProdutos.id_ong)
     )
     {
         return message.ERROR_REQUIRED_DATA;

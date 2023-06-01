@@ -8,6 +8,9 @@
 
 // npm install express --save   npm install cors --save   npm install body-parser --save
 
+
+//npm install jsonwebtoken = dependencia do JWT
+
 // *  Para realizar a conexão com o banco de dados iremos utilizar o PRISMA
 // *      npm install prisma --save
 // *      npx prisma
@@ -429,7 +432,26 @@ app.use((request, response, next) => {
     * Versão: 1.0
     * Data: 01/06/2023
     ***************************************/   
+    //Receber o token encaminhado nas requisições e solicitar a validação
+    const verifyJWT = async function(request, response, next){
+
+        //Recebe o token encaminhado no header da requisição
+        let token = request.headers['x-acess-token'];
+
+        const jwt = require('./middleware/middlewareJWT.js');
+
+        //Valida a autenticidade do token
+        const autenticidadeToken = await jwt.validateJWT(token);
+
+        //Verifica se a requisição poderá continuar ou não
+        if(autenticidadeToken)
+            next();
+        else   
+        response.status(401).end();  
+    };
+
     
+
     //EndPoint: Retorna todos os dados do Administrador
     app.get('/v1/tomorrows-water/administrador', cors(), async function(request, response){
 
@@ -490,6 +512,17 @@ app.use((request, response, next) => {
 
     });
 
+    //EndPoint: Retorna dados do administrador pelo id
+    app.get('/v1/tomorrows-water/administrador/:id', cors(), async function(request, response){
+        
+        let idAdm = request.params.id
+
+        let dados = await controllerAdministrador.buscarIdAdministrador(idAdm);
+
+        response.status(dados.status)
+        response.json(dados)
+
+    });
 
 
 

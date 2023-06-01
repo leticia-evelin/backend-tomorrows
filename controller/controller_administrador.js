@@ -7,7 +7,7 @@
 
 var administradorDAO = require('../model/DAO/administradorDAO.js');
 var message = require('./modulo/config.js');
-
+var jwt = require('../middleware/middlewareJWT.js')
 
 //função para selecionar todos os regitros
 const selecionarTodosAdministradores = async function(){
@@ -20,7 +20,8 @@ const selecionarTodosAdministradores = async function(){
         dadosJSON.status = 200;
 
         dadosJSON.count = dadosAdm.length;
-
+        // let tokenUser = await jwt.createJWT(dadosAdm.id);
+        // dadosAdm.token = tokenUser
         dadosJSON.administradores = dadosAdm;
         return dadosJSON;
 
@@ -81,7 +82,7 @@ const inserirAdministrador = async function(dadosAdm){
  
 
     //função para atualizar um administrador
- const atualizarAdministrador = async function(dadosAdm, idAdm){
+const atualizarAdministrador = async function(dadosAdm, idAdm){
 
     if(dadosAdm.nome         == '' || dadosAdm.nome          == undefined || dadosAdm.nome.length > 50 ||
        dadosAdm.email        == '' || dadosAdm.email        == undefined || dadosAdm.email.length > 255 ||
@@ -114,10 +115,34 @@ const inserirAdministrador = async function(dadosAdm){
     }
  }
 
+const buscarIdAdministrador = async function(id){
+
+    //Validação para o ID
+    if(id == '' || id == undefined || isNaN(id))
+        return message.ERROR_REQUIRED_ID
+    else {     
+
+      //Solicita ao DAO todos os patrocinadores do banco de dados
+      let dadosAdm = await administradorDAO.selectByIdAdministrador(id);
+
+      //Cira um objeto do tipo JSON
+      let dadosJSON = {};
+  
+      //Valida se o banco de dados teve registros, 
+      if(dadosAdm){
+          dadosJSON.status = 200;
+          dadosJSON.administrador = dadosAdm;
+          return dadosJSON;
+     } else {
+          return message.ERROR_NOT_FOUND;   
+        }
+    }  
+};
 
  module.exports = {
     selecionarTodosAdministradores,
     deletarAdministrador,
     inserirAdministrador,
-    atualizarAdministrador
+    atualizarAdministrador,
+    buscarIdAdministrador
  }

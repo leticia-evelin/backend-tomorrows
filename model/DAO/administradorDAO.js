@@ -73,7 +73,7 @@ const selectAllAdministradores = async () => {
     return false;
   };
 
-  const selectLastId = async function(){
+const selectLastId = async function(){
     //script para retornar apenas o última registro inserido na tabela  
     let sql = 'select * from tbl_administrador order by id desc limit 1';
 
@@ -85,10 +85,28 @@ const selectAllAdministradores = async () => {
         return false;    
 }
 
+//Retorna um registro filtrado pelo id do banco de dados
+const selectByIdAdministrador = async function(id){
+
+    //Variável com o script sql para executar no banco de dados
+    let sql = `select * from tbl_administrador where id = ${id}`;
+  
+    let rsAdministrador = await prisma.$queryRawUnsafe(sql);
+
+    //valida se o banco de dados retornou algum registro
+    if(rsAdministrador.length > 0){
+        return rsAdministrador;
+    } else {
+        return false;
+    }
+}
+
+
 module.exports = {
     insertAdministrador,
     updateAdministrador,
     deleteAdministrador,
     selectAllAdministradores,
-    selectLastId
+    selectLastId,
+    selectByIdAdministrador
 }

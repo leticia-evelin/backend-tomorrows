@@ -48,7 +48,8 @@ app.use((request, response, next) => {
    var controllerProjeto = require('./controller/controller_projetos.js');
    var controllerPatrocinador = require('./controller/controller_patrocinador.js');
    var controllerRecado = require('./controller/controller_recado.js');
-   var controllerAdministrador = require('./controller/controller_administrador.js')
+   var controllerAdministrador = require('./controller/controller_administrador.js');
+   var admDAO = require('./model/DAO/administradorDAO.js');
    var message = require('./controller/modulo/config.js');
 
     /***************************************
@@ -256,8 +257,7 @@ app.use((request, response, next) => {
         }
 
     });
-
-        
+ 
     //EndPoint: Excluir um Projeto pelo id
     app.delete('/v1/tomorrows-water/projeto/:id', cors(), async function(request, response){
 
@@ -444,7 +444,6 @@ app.use((request, response, next) => {
         response.status(401).end();  
     };
 
-    
 
     //EndPoint: Retorna todos os dados do Administrador
     app.get('/v1/tomorrows-water/administrador', cors(), async function(request, response){
@@ -518,6 +517,19 @@ app.use((request, response, next) => {
 
     });
 
+    //EndPoint: Validação do login do Adm
+    app.post('/v1/tomorrows-water/administrador/login', bodyJSON, async function(request, response) {
+        const { email, senha } = request.body;
+      
+        // Chame a função validarAdministrador para validar o email e a senha
+        const AdmValido = await admDAO.validarAdministrador(email, senha);
+      
+        if (AdmValido) {
+          response.json({ message: 'Acesso autorizado, administrador válido!' });
+        } else {
+          response.status(401).json({ message: 'Acesso negado, administrador inválido!'});
+        }
+      });
 
     /***************************************
     * EndPoint: Tabela dos voluntários

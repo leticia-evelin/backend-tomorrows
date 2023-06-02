@@ -100,7 +100,21 @@ const selectByIdAdministrador = async function(id){
         return false;
     }
 }
-
+const validarAdministrador = async function(email, senha) {
+    let sql = `
+      SELECT COUNT(*) AS count
+      FROM tbl_administrador
+      WHERE email = '${email}' AND senha = '${senha}'
+    `;
+    
+    let result = await prisma.$queryRawUnsafe(sql);
+  
+    if (result[0].count > 0) {
+      return true; // Email e senha válidos
+    } else {
+      return false; // Email e senha inválidos
+    }
+  }
 
 module.exports = {
     insertAdministrador,
@@ -108,5 +122,6 @@ module.exports = {
     deleteAdministrador,
     selectAllAdministradores,
     selectLastId,
-    selectByIdAdministrador
+    selectByIdAdministrador,
+    validarAdministrador
 }

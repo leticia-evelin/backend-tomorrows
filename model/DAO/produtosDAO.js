@@ -41,8 +41,7 @@ const insertProdutos = async function(dadosProdutos){
      comprimento,
      tamanho_sigla,
      peso,
-     categoria,
-     id_ong 
+     categoria
     )
     values
     ('${dadosProdutos.nome}',
@@ -55,9 +54,7 @@ const insertProdutos = async function(dadosProdutos){
      '${dadosProdutos.comprimento}',
      '${dadosProdutos.tamanho_sigla}',
      '${dadosProdutos.peso}',
-     '${dadosProdutos.categoria}',
-     '${dadosProdutos.id_ong}'
-
+     '${dadosProdutos.categoria}'
     )`;
 
     let result = await prisma.$executeRawUnsafe(sql);

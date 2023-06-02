@@ -33,8 +33,7 @@ var message = require('./modulo/config.js');
 
     if(dadosProjetos.nome             == '' || dadosProjetos.nome          == undefined || dadosProjetos.nome.length > 150 ||
        dadosProjetos.descricao        == '' || dadosProjetos.descricao     == undefined ||
-       dadosProjetos.imagem        == undefined || dadosProjetos.imagem.length > 150 ||
-       dadosProjetos.id_ong           == '' || dadosProjetos.id_ong    == null || isNaN(dadosProjetos.id_ong)
+       dadosProjetos.imagem        == undefined || dadosProjetos.imagem.length > 170 
     ){
         return message.ERROR_REQUIRED_DATA;
 
@@ -81,8 +80,7 @@ var message = require('./modulo/config.js');
 
     if(dadosProjetos.nome             == '' || dadosProjetos.nome          == undefined || dadosProjetos.nome.length > 150 ||
        dadosProjetos.descricao        == '' || dadosProjetos.descricao     == undefined ||
-       dadosProjetos.imagem        == undefined || dadosProjetos.imagem.length > 150 ||
-       dadosProjetos.id_ong           == '' || dadosProjetos.id_ong    == null || isNaN(dadosProjetos.id_ong)
+       dadosProjetos.imagem        == undefined || dadosProjetos.imagem.length > 170 
     ){
         return message.ERROR_REQUIRED_DATA;
 

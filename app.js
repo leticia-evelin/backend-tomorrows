@@ -172,10 +172,6 @@ app.use((request, response, next) => {
 
             //recebe os dados encaminhados no body da requisição
             let dadosBody = request.body;
-
-            dadosBody.id_ong = request.body.id_ong;
-
-    
     
           
             // envia para a controller
@@ -247,8 +243,6 @@ app.use((request, response, next) => {
 
             //recebe os dados encaminhados no body da requisição
             let dadosBody = request.body;
-
-            dadosBody.id_ong = request.body.id_ong;
 
             // envia para a controller
             let resultInsertDados = await controllerProjeto.inserirProjetos(dadosBody);

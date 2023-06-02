@@ -31,15 +31,12 @@ const insertProjetos = async function(dadosProjetos){
         let sql = `insert into tbl_projetos
         (nome, 
          descricao,
-         imagem,
-         id_ong 
+         imagem 
         )
         values
         ('${dadosProjetos.nome}',
          '${dadosProjetos.descricao}',
-         '${dadosProjetos.imagem}',
-         '${dadosProjetos.id_ong}'
-    
+         '${dadosProjetos.imagem}'
         )`;
     
         let result = await prisma.$executeRawUnsafe(sql);

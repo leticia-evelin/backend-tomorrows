@@ -16,7 +16,7 @@ const inserirPatrocinador = async function(dadosPatrocinador){
     if(dadosPatrocinador.razao_social == '' || dadosPatrocinador.razao_social == undefined || dadosPatrocinador.razao_social > 80 ||
        dadosPatrocinador.cnpj == '' || dadosPatrocinador.cnpj == undefined || dadosPatrocinador.cnpj > 45 ||
        dadosPatrocinador.email == '' || dadosPatrocinador.email == undefined || dadosPatrocinador.email > 255 ||       
-       dadosPatrocinador.id_ong    == null || isNaN(dadosPatrocinador.id_ong)
+       dadosPatrocinador.id_telefone    == null || isNaN(dadosPatrocinador.id_telefone)
     ){
         return message.ERROR_REQUIRED_DATA;
 
@@ -51,6 +51,28 @@ const inserirPatrocinador = async function(dadosPatrocinador){
     if(dadosPatrocinador){
         dadosJSON.status = 200;
 
+        // Iterar sobre os voluntários e buscar os números de telefone
+        for (let i = 0; i < dadosPatrocinador.length; i++) {
+            let telefone = await patrocinadorDAO.selectTelefoneByForeignKey(dadosPatrocinador[i].id_telefone);
+    
+            if (telefone) {
+              // Cria o objeto com o ID do telefone e o número
+              let telefoneObj = {
+                id_telefone: dadosPatrocinador[i].id_telefone,
+                numero: telefone.numero,
+            };
+    
+             // Cria ou atualiza o array de telefones no voluntário
+                if (dadosPatrocinador[i].telefones) {
+                    dadosPatrocinador[i].telefones.push(telefoneObj);
+                } else {
+                    dadosPatrocinador[i].telefones = [telefoneObj];
+                }
+            }
+    
+          }
+    
+
         dadosJSON.count = dadosPatrocinador.length;
 
         dadosJSON.patrocinador = dadosPatrocinador;
@@ -67,7 +89,7 @@ const inserirPatrocinador = async function(dadosPatrocinador){
     if(dadosPatrocinador.razao_social == '' || dadosPatrocinador.razao_social == undefined || dadosPatrocinador.razao_social > 80 ||
        dadosPatrocinador.cnpj == '' || dadosPatrocinador.cnpj == undefined || dadosPatrocinador.cnpj > 45 ||
        dadosPatrocinador.email == '' || dadosPatrocinador.email == undefined || dadosPatrocinador.email > 255 ||       
-       dadosPatrocinador.id_ong    == null || isNaN(dadosPatrocinador.id_ong)
+       dadosPatrocinador.id_telefone    == null || isNaN(dadosPatrocinador.id_telefone)
     )
     {
         return message.ERROR_REQUIRED_DATA;

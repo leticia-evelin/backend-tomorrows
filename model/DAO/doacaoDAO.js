@@ -18,7 +18,8 @@ const insertDoacao = async function(dadosDoacao){
     )
     values
     ('${dadosDoacao.tipo_doacao}',
-     '${dadosDoacao.valor}'
+     '${dadosDoacao.valor}',
+     '${dadosDoacao.id_doador}'
     )`;
 
     let result = await prisma.$executeRawUnsafe(sql);
@@ -53,8 +54,22 @@ const selectLastId = async function(){
         return false;    
 }
 
+//Excluir um registro no banco
+const deleteDoacao = async function(idDoacao){
+
+    let sql = `delete from tbl_doacao where id = ${idDoacao}`
+
+    let result = await prisma.$executeRawUnsafe(sql);
+
+    if(result)
+        return true
+    else    
+        return false;    
+}
+
 module.exports = {
     insertDoacao,
     selectAllDoacoes,
+    deleteDoacao,
     selectLastId
 }

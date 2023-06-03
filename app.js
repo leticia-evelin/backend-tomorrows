@@ -560,6 +560,10 @@ app.use((request, response, next) => {
             //recebe os dados encaminhados no body da requisição
             let dadosBody = request.body;
 
+            dadosBody.id_genero = request.body.id_genero;
+            dadosBody.id_telefone = request.body.id_telefone;
+         
+
             // envia para a controller
             let resultInsertDados = await controllerVoluntario.inserirVoluntario(dadosBody);
 
@@ -570,7 +574,6 @@ app.use((request, response, next) => {
             response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
             response.json(message.ERROR_INVALID_CONTENT_TYPE);
         }
-
     });
 
     //EndPoint: Excluir um Voluntario pelo id
@@ -602,8 +605,8 @@ app.use((request, response, next) => {
       
     });
 
-       //EndPoint: Inserir um novo voluntario
-       app.post('/v1/tomorrows-water/doacao', cors(), bodyJSON, async function(request, response){
+     //EndPoint: Inserir uma nova doacao
+    app.post('/v1/tomorrows-water/doacao', cors(), bodyJSON, async function(request, response){
 
         //chega em formato de array
         let contentType = request.headers['content-type'];
@@ -612,6 +615,8 @@ app.use((request, response, next) => {
 
             //recebe os dados encaminhados no body da requisição
             let dadosBody = request.body;
+
+            dadosBody.id_doador = request.body.id_doador;
 
             // envia para a controller
             let resultInsertDados = await controllerDoacao.inserirDoacao(dadosBody);
@@ -623,6 +628,18 @@ app.use((request, response, next) => {
             response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
             response.json(message.ERROR_INVALID_CONTENT_TYPE);
         }
+
+    });
+
+    //EndPoint: Excluir uma Doacao pelo id
+    app.delete('/v1/tomorrows-water/doacao/:id', cors(), async function(request, response){
+
+        let idDoacao = request.params.id;
+
+        let resultDeleteDados = await controllerDoacao.deletarDoacao(idDoacao);
+
+        response.status(resultDeleteDados.status);
+        response.json(resultDeleteDados);
 
     });
 

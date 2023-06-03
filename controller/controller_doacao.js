@@ -10,7 +10,8 @@ var message = require('./modulo/config.js');
 
 const inserirDoacao = async function(dadosDoacao){
     if(dadosDoacao.tipo_doacao         == '' || dadosDoacao.tipo_doacao  == undefined || dadosDoacao.tipo_doacao.length > 45 ||
-       dadosDoacao.valor           == '' || dadosDoacao.valor == undefined || isNaN(dadosDoacao.valor)
+       dadosDoacao.valor           == '' || dadosDoacao.valor == undefined || isNaN(dadosDoacao.valor) ||
+       dadosDoacao.id_doador == '' || dadosDoacao.id_doador == undefined || isNaN(dadosDoacao.id_doador)
     ){
         return message.ERROR_REQUIRED_DATA;
 
@@ -55,8 +56,26 @@ const selecionarTodasDoacoes = async function(){
     }
  };
 
+  //função para excluir um produto pelo id, irá para o model
+  const deletarDoacao = async function(idDoacao){
+
+    if(idDoacao == '' || idDoacao == undefined || isNaN(idDoacao)){
+        return message.ERROR_REQUIRED_ID
+    } else {
+
+        let status = await doacaoDAO.deleteDoacao(idDoacao);
+
+        if(status)
+            return message.DELETED_ITEM
+        else 
+            return message.ERROR_INTERNAL_SERVER    
+
+    }
+ };
+
 
  module.exports = {
     inserirDoacao,
-    selecionarTodasDoacoes
+    selecionarTodasDoacoes,
+    deletarDoacao
  }

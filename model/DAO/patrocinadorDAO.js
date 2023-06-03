@@ -49,13 +49,13 @@ const insertPatrocinador = async function(dadosPatrocinador){
     (razao_social, 
      cnpj,
      email,
-     id_ong 
+     id_telefone
     )
     values
     ('${dadosPatrocinador.razao_social}',
      '${dadosPatrocinador.cnpj}',
      '${dadosPatrocinador.email}',
-     '${dadosPatrocinador.ong[0].id_ong}'
+     '${dadosPatrocinador.id_telefone}'
     )`;
 
     let result = await prisma.$executeRawUnsafe(sql);
@@ -109,11 +109,33 @@ const selectLastId = async function(){
         return false;    
 }
 
+const selectTelefoneByForeignKey = async (idTelefone) => {
+    try {
+      const sql = `
+        SELECT numero
+        FROM tbl_telefone
+        WHERE id = ${idTelefone};
+      `;
+      const result = await prisma.$queryRawUnsafe(sql);
+  
+      if (result.length > 0) {
+        return result[0];
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Erro ao buscar o telefone:', error);
+      throw error;
+    }
+  };
+
+
 module.exports = {
     selectAllPatrocinadores,
     selectByIdPatrocinador,
     insertPatrocinador,
     updatePatrocinador,
     deletePatrocinador,
-    selectLastId
+    selectLastId,
+    selectTelefoneByForeignKey
 }

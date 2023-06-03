@@ -18,14 +18,16 @@ const insertVoluntario = async function(dadosVoluntario){
      email,
      data_nascimento,
      cpf,
-     id_genero 
+     id_genero,
+     id_telefone 
     )
     values
     ('${dadosVoluntario.nome}',
      '${dadosVoluntario.email}',
      '${dadosVoluntario.data_nascimento}',
      '${dadosVoluntario.cpf}',
-     '${dadosVoluntario.id_genero}'
+     '${dadosVoluntario.id_genero}',
+     '${dadosVoluntario.id_telefone}'
     )`;
 
     let result = await prisma.$executeRawUnsafe(sql);
@@ -74,9 +76,52 @@ const selectLastId = async function(){
         return false;    
 }
 
+const selectGeneroByForeignKey = async (idGenero) => {
+  try {
+    const sql = `
+      SELECT nome
+      FROM tbl_genero
+      WHERE id = ${idGenero};
+    `;
+    const result = await prisma.$queryRawUnsafe(sql);
+
+    if (result.length > 0) {
+      return result[0];
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Erro ao buscar o telefone:', error);
+    throw error;
+  }
+};
+
+// Função para buscar o telefone pelo ID de chave estrangeira
+const selectTelefoneByForeignKey = async (idTelefone) => {
+    try {
+      const sql = `
+        SELECT numero
+        FROM tbl_telefone
+        WHERE id = ${idTelefone};
+      `;
+      const result = await prisma.$queryRawUnsafe(sql);
+  
+      if (result.length > 0) {
+        return result[0];
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Erro ao buscar o telefone:', error);
+      throw error;
+    }
+  };
+
 module.exports = {
     insertVoluntario,
     selectAllVoluntarios,
     deleteVoluntario,
-    selectLastId
+    selectLastId,
+    selectTelefoneByForeignKey,
+    selectGeneroByForeignKey
 }

@@ -14,7 +14,10 @@ const inserirVoluntario = async function(dadosVoluntario){
     if(dadosVoluntario.nome            == '' || dadosVoluntario.nome  == undefined || dadosVoluntario.nome.length > 50 ||
        dadosVoluntario.email           == '' || dadosVoluntario.email == undefined || dadosVoluntario.email.length > 255 ||
        dadosVoluntario.data_nascimento == '' || dadosVoluntario.data_nascimento == undefined || dadosVoluntario.data_nascimento.length > 10 ||
-       dadosVoluntario.cpf             == '' || dadosVoluntario.cpf   == undefined || dadosVoluntario.cpf.length > 45
+       dadosVoluntario.cpf             == '' || dadosVoluntario.cpf   == undefined || dadosVoluntario.cpf.length > 45 ||
+       dadosVoluntario.id_genero    == null || isNaN(dadosVoluntario.id_genero) ||
+       dadosVoluntario.id_telefone    == null || isNaN(dadosVoluntario.id_telefone)
+
     ){
         return message.ERROR_REQUIRED_DATA;
 
@@ -48,8 +51,34 @@ const selecionarTodosVoluntarios = async function(){
 
     if(dadosVoluntario){
         dadosJSON.status = 200;
-
         dadosJSON.count = dadosVoluntario.length;
+
+
+        // Iterar sobre os voluntários e buscar os números de telefone
+        for (let i = 0; i < dadosVoluntario.length; i++) {
+        let telefone = await voluntarioDAO.selectTelefoneByForeignKey(dadosVoluntario[i].id_telefone);
+        let genero = await voluntarioDAO.selectGeneroByForeignKey(dadosVoluntario[i].id_genero);
+    
+        if(genero){
+            dadosVoluntario[i].genero = genero.nome;
+        }    
+
+        if (telefone) {
+          // Cria o objeto com o ID do telefone e o número
+          let telefoneObj = {
+            id_telefone: dadosVoluntario[i].id_telefone,
+            numero: telefone.numero,
+        };
+
+         // Cria ou atualiza o array de telefones no voluntário
+            if (dadosVoluntario[i].telefones) {
+                dadosVoluntario[i].telefones.push(telefoneObj);
+            } else {
+                dadosVoluntario[i].telefones = [telefoneObj];
+            }
+        }
+
+      }
 
         dadosJSON.voluntarios = dadosVoluntario;
         return dadosJSON;

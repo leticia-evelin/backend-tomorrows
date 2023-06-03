@@ -64,6 +64,11 @@ const deleteDoador = async function(idDoador){
     else    
         return false;    
 }
+const dataDoador = async function(idDoador){
+    
+
+
+}
 
 //Atualiza um registro no banco
 const updateDoador = async function(dadosDoador){

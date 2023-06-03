@@ -49,6 +49,8 @@ app.use((request, response, next) => {
    var controllerPatrocinador = require('./controller/controller_patrocinador.js');
    var controllerRecado = require('./controller/controller_recado.js');
    var controllerAdministrador = require('./controller/controller_administrador.js');
+   var controllerVoluntario = require('./controller/controller_voluntario.js');
+   var controllerDoacao = require('./controller/controller_doacao.js');
    var admDAO = require('./model/DAO/administradorDAO.js');
    var message = require('./controller/modulo/config.js');
 
@@ -537,7 +539,92 @@ app.use((request, response, next) => {
     * Data: 02/06/2023
     ***************************************/
     
+     //EndPoint: Retorna todos os dados do voluntario
+    app.get('/v1/tomorrows-water/voluntario', cors(), async function(request, response){
 
+        let dados = await controllerVoluntario.selecionarTodosVoluntarios();
+    
+        response.status(dados.status)
+        response.json(dados)
+      
+    });
+
+     //EndPoint: Inserir um novo voluntario
+    app.post('/v1/tomorrows-water/voluntario', cors(), bodyJSON, async function(request, response){
+
+        //chega em formato de array
+        let contentType = request.headers['content-type'];
+
+        if(String(contentType).toLocaleLowerCase() == 'application/json'){
+
+            //recebe os dados encaminhados no body da requisição
+            let dadosBody = request.body;
+
+            // envia para a controller
+            let resultInsertDados = await controllerVoluntario.inserirVoluntario(dadosBody);
+
+            response.status(resultInsertDados.status);
+            response.json(resultInsertDados);
+
+        } else {
+            response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+            response.json(message.ERROR_INVALID_CONTENT_TYPE);
+        }
+
+    });
+
+    //EndPoint: Excluir um Voluntario pelo id
+    app.delete('/v1/tomorrows-water/voluntario/:id', cors(), async function(request, response){
+
+        let idVoluntario = request.params.id;
+
+        let resultDeleteDados = await controllerVoluntario.deletarVoluntario(idVoluntario);
+
+        response.status(resultDeleteDados.status);
+        response.json(resultDeleteDados);
+
+    });
+
+
+    /***************************************
+    * EndPoint: Tabela das Doações
+    * Versão: 1.0
+    * Data: 02/06/2023
+    ***************************************/
+    
+     //EndPoint: Retorna todos os dados da doacao
+     app.get('/v1/tomorrows-water/doacao', cors(), async function(request, response){
+
+        let dados = await controllerDoacao.selecionarTodasDoacoes();
+    
+        response.status(dados.status)
+        response.json(dados)
+      
+    });
+
+       //EndPoint: Inserir um novo voluntario
+       app.post('/v1/tomorrows-water/doacao', cors(), bodyJSON, async function(request, response){
+
+        //chega em formato de array
+        let contentType = request.headers['content-type'];
+
+        if(String(contentType).toLocaleLowerCase() == 'application/json'){
+
+            //recebe os dados encaminhados no body da requisição
+            let dadosBody = request.body;
+
+            // envia para a controller
+            let resultInsertDados = await controllerDoacao.inserirDoacao(dadosBody);
+
+            response.status(resultInsertDados.status);
+            response.json(resultInsertDados);
+
+        } else {
+            response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+            response.json(message.ERROR_INVALID_CONTENT_TYPE);
+        }
+
+    });
 
 
     app.listen(8080, function(){

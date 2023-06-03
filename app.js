@@ -51,6 +51,7 @@ app.use((request, response, next) => {
    var controllerAdministrador = require('./controller/controller_administrador.js');
    var controllerVoluntario = require('./controller/controller_voluntario.js');
    var controllerDoacao = require('./controller/controller_doacao.js');
+   var controllerTelefone = require('./controller/controller_telefone.js');
    var admDAO = require('./model/DAO/administradorDAO.js');
    var message = require('./controller/modulo/config.js');
 
@@ -637,6 +638,60 @@ app.use((request, response, next) => {
         let idDoacao = request.params.id;
 
         let resultDeleteDados = await controllerDoacao.deletarDoacao(idDoacao);
+
+        response.status(resultDeleteDados.status);
+        response.json(resultDeleteDados);
+
+    });
+
+
+    
+    /***************************************
+    * EndPoint: Tabela dos Telefones
+    * Versão: 1.0
+    * Data: 03/06/2023
+    ***************************************/
+
+    //EndPoint: Retorna todos os dados do Telefone
+    app.get('/v1/tomorrows-water/telefone', cors(), async function(request, response){
+
+        let dados = await controllerTelefone.selecionarTodosNumeros();
+    
+        response.status(dados.status)
+        response.json(dados)
+      
+    });
+
+    //EndPoint: Inserir um novo Telefone
+    app.post('/v1/tomorrows-water/telefone', cors(), bodyJSON, async function(request, response){
+
+        //chega em formato de array
+        let contentType = request.headers['content-type'];
+
+        if(String(contentType).toLocaleLowerCase() == 'application/json'){
+
+            //recebe os dados encaminhados no body da requisição
+            let dadosBody = request.body;
+
+            // envia para a controller
+            let resultInsertDados = await controllerTelefone.inserirTelefone(dadosBody);
+
+            response.status(resultInsertDados.status);
+            response.json(resultInsertDados);
+
+        } else {
+            response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+            response.json(message.ERROR_INVALID_CONTENT_TYPE);
+        }
+
+    });
+
+    //EndPoint: Excluir um Telefone pelo id
+    app.delete('/v1/tomorrows-water/telefone/:id', cors(), async function(request, response){
+
+        let idTelefone = request.params.id;
+
+        let resultDeleteDados = await controllerTelefone.deletarTelefone(idTelefone);
 
         response.status(resultDeleteDados.status);
         response.json(resultDeleteDados);

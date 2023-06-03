@@ -58,9 +58,9 @@ const deleteVoluntario = async function(idVoluntario){
     let result = await prisma.$executeRawUnsafe(sql);
 
     if(result)
-        return true
+      return true
     else    
-        return false;    
+      return false;    
 }
 
 
@@ -71,9 +71,9 @@ const selectLastId = async function(){
     let rsVoluntario = await prisma.$queryRawUnsafe(sql);
 
     if(rsVoluntario.length > 0)
-        return rsVoluntario[0].id;
+      return rsVoluntario[0].id;
     else
-        return false;    
+      return false;    
 }
 
 const selectGeneroByForeignKey = async (idGenero) => {

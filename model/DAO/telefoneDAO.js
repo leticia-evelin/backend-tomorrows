@@ -22,12 +22,52 @@ const insertTelefone = async function(dadosTelefone){
   let result = await prisma.$executeRawUnsafe(sql);
 
   if (result)
-      return true;
+    return true;
   else 
-      return false;    
+    return false;    
+}
+
+//Listar todos os regitros
+const selectAllTelefones = async () => {
+  let sql = `select * from tbl_telefone`;
+
+  let rsTelefone = await prisma.$queryRawUnsafe(sql);
+
+  if (rsTelefone.length > 0) {
+    return rsTelefone;
+  }
+  return false;
+};
+
+//Excluir um registro no banco
+const deleteTelefone = async function(idTelefone){
+
+  let sql = `delete from tbl_telefone where id = ${idTelefone}`
+
+  let result = await prisma.$executeRawUnsafe(sql);
+
+  if(result)
+    return true
+  else    
+    return false;    
+}
+
+const selectLastId = async function(){
+  //script para retornar apenas o última registro inserido na tabela  
+  let sql = 'select * from tbl_telefone order by id desc limit 1';
+
+  let rsTelefone = await prisma.$queryRawUnsafe(sql);
+
+  if(rsTelefone.length > 0)
+    return rsTelefone[0].id;
+  else
+    return false;    
 }
 
 
   module.exports = {
-    insertTelefone
+    insertTelefone,
+    selectAllTelefones,
+    deleteTelefone,
+    selectLastId
   }

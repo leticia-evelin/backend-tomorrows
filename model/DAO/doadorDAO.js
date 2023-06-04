@@ -34,13 +34,15 @@ const insertDoador = async function(dadosDoador){
     (nome, 
      email, 
      cpf, 
-     data_nascimento
+     data_nascimento,
+     id_telefone
     )
     values
     ('${dadosDoador.nome}',
      '${dadosDoador.email}',
      '${dadosDoador.cpf}',
-     '${dadosDoador.data_nascimento}'
+     '${dadosDoador.data_nascimento}',
+     (SELECT MAX(id) FROM tbl_telefone)
 
     )`;
 
@@ -63,11 +65,6 @@ const deleteDoador = async function(idDoador){
         return true
     else    
         return false;    
-}
-const dataDoador = async function(idDoador){
-    
-
-
 }
 
 //Atualiza um registro no banco

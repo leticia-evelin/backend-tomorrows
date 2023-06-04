@@ -7,6 +7,7 @@
 
 
 var patrocinadorDAO = require('../model/DAO/patrocinadorDAO.js');
+var telefoneDAO = require('../model/DAO/telefoneDAO.js');
 var message = require('./modulo/config.js');
 
 
@@ -15,8 +16,7 @@ const inserirPatrocinador = async function(dadosPatrocinador){
 
     if(dadosPatrocinador.razao_social == '' || dadosPatrocinador.razao_social == undefined || dadosPatrocinador.razao_social > 80 ||
        dadosPatrocinador.cnpj == '' || dadosPatrocinador.cnpj == undefined || dadosPatrocinador.cnpj > 45 ||
-       dadosPatrocinador.email == '' || dadosPatrocinador.email == undefined || dadosPatrocinador.email > 255 ||       
-       dadosPatrocinador.id_telefone    == null || isNaN(dadosPatrocinador.id_telefone)
+       dadosPatrocinador.email == '' || dadosPatrocinador.email == undefined || dadosPatrocinador.email > 255
     ){
         return message.ERROR_REQUIRED_DATA;
 
@@ -26,13 +26,18 @@ const inserirPatrocinador = async function(dadosPatrocinador){
 
         if(status){
             let dadosJSON = {};
+            let ultimoIdTelefone = await telefoneDAO.selectLastId();
 
             let patrocinadorNovoId = await patrocinadorDAO.selectLastId();
-            dadosPatrocinador.id = patrocinadorNovoId;
 
             dadosJSON.status = message.CREATED_ITEM.status;
-            dadosJSON.patrocinador = dadosPatrocinador;
-
+            dadosJSON.doador = {
+                ...dadosPatrocinador,
+                id: patrocinadorNovoId,
+                id_telefone: ultimoIdTelefone,
+            }
+           
+            
             return dadosJSON;
 
         } else 
@@ -53,7 +58,7 @@ const inserirPatrocinador = async function(dadosPatrocinador){
 
         // Iterar sobre os voluntários e buscar os números de telefone
         for (let i = 0; i < dadosPatrocinador.length; i++) {
-            let telefone = await patrocinadorDAO.selectTelefoneByForeignKey(dadosPatrocinador[i].id_telefone);
+            let telefone = await telefoneDAO.selectTelefoneByForeignKey(dadosPatrocinador[i].id_telefone);
     
             if (telefone) {
               // Cria o objeto com o ID do telefone e o número

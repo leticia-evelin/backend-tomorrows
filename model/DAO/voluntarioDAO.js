@@ -103,31 +103,31 @@ const selectGeneroByForeignKey = async (idGenero) => {
 };
 
 // Função para buscar o telefone pelo ID de chave estrangeira
-const selectTelefoneByForeignKey = async (idTelefone) => {
-    try {
-      const sql = `
-        SELECT numero
-        FROM tbl_telefone
-        WHERE id = ${idTelefone};
-      `;
-      const result = await prisma.$queryRawUnsafe(sql);
+// const selectTelefoneByForeignKey = async (idTelefone) => {
+//     try {
+//       const sql = `
+//         SELECT numero
+//         FROM tbl_telefone
+//         WHERE id = ${idTelefone};
+//       `;
+//       const result = await prisma.$queryRawUnsafe(sql);
   
-      if (result.length > 0) {
-        return result[0];
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.error('Erro ao buscar o telefone:', error);
-      throw error;
-    }
-  };
+//       if (result.length > 0) {
+//         return result[0];
+//       } else {
+//         return null;
+//       }
+//     } catch (error) {
+//       console.error('Erro ao buscar o telefone:', error);
+//       throw error;
+//     }
+//   };
 
 module.exports = {
     insertVoluntario,
     selectAllVoluntarios,
     deleteVoluntario,
     selectLastId,
-    selectTelefoneByForeignKey,
+    // selectTelefoneByForeignKey,
     selectGeneroByForeignKey
 }

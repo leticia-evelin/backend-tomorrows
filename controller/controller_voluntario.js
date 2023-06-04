@@ -62,7 +62,7 @@ const selecionarTodosVoluntarios = async function(){
 
         // Iterar sobre os voluntários e buscar os números de telefone
         for (let i = 0; i < dadosVoluntario.length; i++) {
-        let telefone = await voluntarioDAO.selectTelefoneByForeignKey(dadosVoluntario[i].id_telefone);
+        let telefone = await telefoneDAO.selectTelefoneByForeignKey(dadosVoluntario[i].id_telefone);
         let genero = await voluntarioDAO.selectGeneroByForeignKey(dadosVoluntario[i].id_genero);
     
         if(genero){

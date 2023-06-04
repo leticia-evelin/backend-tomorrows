@@ -7,6 +7,7 @@
 
 
  var doadorDAO = require('../model/DAO/doadorDAO.js');
+ var telefoneDAO = require('../model/DAO/telefoneDAO.js');
  var message = require('./modulo/config.js');
 
 
@@ -22,6 +23,29 @@
         dadosJSON.status = 200;
 
         dadosJSON.count = dadosDoador.length;
+
+          // Iterar sobre os doadores e buscar os números de telefone
+          for (let i = 0; i < dadosDoador.length; i++) {
+            let telefone = await telefoneDAO.selectTelefoneByForeignKey(dadosDoador[i].id_telefone);
+    
+            if (telefone) {
+                // Cria o objeto com o ID do telefone e o número
+                let telefoneObj = {
+                  id_telefone: dadosDoador[i].id_telefone,
+                  numero: telefone.numero,
+                };
+
+             // Cria ou atualiza o array de telefones no doador
+             if (dadosDoador[i].telefones) {
+                dadosDoador[i].telefones.push(telefoneObj);
+            } else {
+                dadosDoador[i].telefones = [telefoneObj];
+            }
+        }
+
+      }  
+
+
 
         dadosJSON.doadores = dadosDoador;
         return dadosJSON;
@@ -49,12 +73,18 @@
         if(status){
             let dadosJSON = {};
 
+            let ultimoIdTelefone = await telefoneDAO.selectLastId();
+
             let doadorNovoId = await doadorDAO.selectLastId();
-            dadosDoador.id = doadorNovoId;
+           
 
             dadosJSON.status = message.CREATED_ITEM.status;
-            dadosJSON.aluno = dadosDoador;
-
+            dadosJSON.doador = {
+                ...dadosDoador,
+                id: doadorNovoId,
+                id_telefone: ultimoIdTelefone,
+            }
+           
             return dadosJSON;
 
         } else 

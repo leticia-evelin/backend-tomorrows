@@ -7,7 +7,9 @@
 
 
 var voluntarioDAO = require('../model/DAO/voluntarioDAO.js');
+var telefoneDAO = require('../model/DAO/telefoneDAO.js');
 var message = require('./modulo/config.js');
+
 
 
 const inserirVoluntario = async function(dadosVoluntario){
@@ -15,9 +17,7 @@ const inserirVoluntario = async function(dadosVoluntario){
        dadosVoluntario.email           == '' || dadosVoluntario.email == undefined || dadosVoluntario.email.length > 255 ||
        dadosVoluntario.data_nascimento == '' || dadosVoluntario.data_nascimento == undefined || dadosVoluntario.data_nascimento.length > 10 ||
        dadosVoluntario.cpf             == '' || dadosVoluntario.cpf   == undefined || dadosVoluntario.cpf.length > 45 ||
-       dadosVoluntario.id_genero    == null || isNaN(dadosVoluntario.id_genero) ||
-       dadosVoluntario.id_telefone    == null || isNaN(dadosVoluntario.id_telefone)
-
+        dadosVoluntario.id_genero    == null || isNaN(dadosVoluntario.id_genero) 
     ){
         return message.ERROR_REQUIRED_DATA;
 
@@ -27,12 +27,18 @@ const inserirVoluntario = async function(dadosVoluntario){
 
         if(status){
             let dadosJSON = {};
+         // Obter o último ID do telefone cadastrado
+            let ultimoIdTelefone = await telefoneDAO.selectLastId();
 
             let voluntarioNovoId = await voluntarioDAO.selectLastId();
-            dadosVoluntario.id = voluntarioNovoId;
+           
 
             dadosJSON.status = message.CREATED_ITEM.status;
-            dadosJSON.voluntario = dadosVoluntario;
+            dadosJSON.voluntario = {
+                ...dadosVoluntario,
+                id: voluntarioNovoId,
+                id_telefone: ultimoIdTelefone,
+            }
 
             return dadosJSON;
 

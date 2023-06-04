@@ -10,6 +10,9 @@ var {PrismaClient} = require('@prisma/client');
 
 var prisma = new PrismaClient();
 
+// var telefoneDAO = require('../model/DAO/telefoneDAO.js');
+var telefoneDAO = require('./telefoneDAO.js');
+
 //Inserir um novo registro no banco
 const insertVoluntario = async function(dadosVoluntario){
 
@@ -19,7 +22,7 @@ const insertVoluntario = async function(dadosVoluntario){
      data_nascimento,
      cpf,
      id_genero,
-     id_telefone 
+     id_telefone
     )
     values
     ('${dadosVoluntario.nome}',
@@ -27,16 +30,19 @@ const insertVoluntario = async function(dadosVoluntario){
      '${dadosVoluntario.data_nascimento}',
      '${dadosVoluntario.cpf}',
      '${dadosVoluntario.id_genero}',
-     '${dadosVoluntario.id_telefone}'
+     (SELECT MAX(id) FROM tbl_telefone)
     )`;
 
     let result = await prisma.$executeRawUnsafe(sql);
 
-    if (result)
-        return true;
+    if (result){
+      let ultimoIdTelefone = await telefoneDAO.selectLastId();
+        return ultimoIdTelefone;
+    }    
     else 
         return false;    
 }
+
 
 //Listar todos os regitros
 const selectAllVoluntarios = async () => {

@@ -30,7 +30,7 @@ const insertTelefone = async function(dadosTelefone){
 //Listar todos os regitros
 const selectAllTelefones = async () => {
   let sql = `select * from tbl_telefone`;
-
+  
   let rsTelefone = await prisma.$queryRawUnsafe(sql);
 
   if (rsTelefone.length > 0) {
@@ -38,6 +38,27 @@ const selectAllTelefones = async () => {
   }
   return false;
 };
+
+const selectTelefonesVoluntarios = async () => {
+  let sql = `              SELECT
+  tbl_voluntarios.nome AS nome_voluntario,
+  tbl_voluntarios.email as email_voluntario,
+  tbl_voluntarios.data_nascimento,
+  tbl_voluntarios.cpf,
+  tbl_telefone_voluntario.numero AS telefone_voluntario
+FROM
+  tbl_voluntarios
+  INNER JOIN tbl_telefone AS tbl_telefone_voluntario ON tbl_telefone_voluntario.id = tbl_voluntarios.id_telefone`
+  
+  let rsTelefone = await prisma.$queryRawUnsafe(sql);
+
+  if (rsTelefone.length > 0) {
+    return rsTelefone;
+  }
+  return false;
+}
+
+
 
 //Excluir um registro no banco
 const deleteTelefone = async function(idTelefone){

@@ -10,6 +10,7 @@ var {PrismaClient} = require('@prisma/client');
 
 var prisma = new PrismaClient();
 
+
 const insertDoacao = async function(dadosDoacao){
 
     let sql = `insert into tbl_doacao
@@ -32,7 +33,12 @@ const insertDoacao = async function(dadosDoacao){
 
 //Listar todos os regitros
 const selectAllDoacoes = async () => {
-    let sql = `select * from tbl_doacao`;
+    // let sql = `select * from tbl_doacao`;
+
+    let sql = `select tbl_doador.cpf, tbl_doacao.tipo_doacao, tbl_doacao.valor, tbl_doador.nome as nome_doador, tbl_doador.email
+               from tbl_doacao
+                    inner join tbl_doador
+                        on tbl_doador.id = tbl_doacao.id_doador;  `
   
     let rsDoacao = await prisma.$queryRawUnsafe(sql);
   

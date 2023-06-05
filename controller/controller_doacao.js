@@ -57,7 +57,7 @@ const selecionarTodasDoacoes = async function(){
  };
 
   //função para excluir um produto pelo id, irá para o model
-  const deletarDoacao = async function(idDoacao){
+const deletarDoacao = async function(idDoacao){
 
     if(idDoacao == '' || idDoacao == undefined || isNaN(idDoacao)){
         return message.ERROR_REQUIRED_ID

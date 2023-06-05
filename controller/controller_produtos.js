@@ -17,9 +17,7 @@
        dadosProdutos.imagem           == '' || dadosProdutos.imagem        == undefined || dadosProdutos.imagem.length > 150 ||
        dadosProdutos.altura           == undefined || dadosProdutos.altura.length > 50 ||
        dadosProdutos.largura          == undefined || dadosProdutos.largura.length > 50 ||
-       dadosProdutos.comprimento      == undefined || dadosProdutos.comprimento.length > 50 ||
        dadosProdutos.tamanho_sigla > 5 ||
-       dadosProdutos.peso             == '' || dadosProdutos.peso      == undefined ||  dadosProdutos.peso > 50 ||
        dadosProdutos.categoria        == '' || dadosProdutos.categoria == undefined || dadosProdutos.categoria > 80
     ){
         return message.ERROR_REQUIRED_DATA;
@@ -92,9 +90,7 @@
        dadosProdutos.imagem           == '' || dadosProdutos.imagem        == undefined || dadosProdutos.imagem.length > 150 ||
        dadosProdutos.altura          == undefined || dadosProdutos.altura.length > 50 ||
        dadosProdutos.largura          == undefined || dadosProdutos.largura.length > 50 ||
-       dadosProdutos.comprimento      == undefined || dadosProdutos.comprimento.length > 50 ||
        dadosProdutos.tamanho_sigla > 5 ||
-       dadosProdutos.peso             == '' || dadosProdutos.peso      == undefined ||  dadosProdutos.peso > 50 ||
        dadosProdutos.categoria        == '' || dadosProdutos.categoria == undefined || dadosProdutos.categoria > 80
     )
     {

@@ -38,9 +38,7 @@ const insertProdutos = async function(dadosProdutos){
      imagem,
      altura,
      largura,
-     comprimento,
      tamanho_sigla,
-     peso,
      categoria
     )
     values
@@ -51,9 +49,7 @@ const insertProdutos = async function(dadosProdutos){
      '${dadosProdutos.imagem}',
      '${dadosProdutos.altura}',
      '${dadosProdutos.largura}',
-     '${dadosProdutos.comprimento}',
      '${dadosProdutos.tamanho_sigla}',
-     '${dadosProdutos.peso}',
      '${dadosProdutos.categoria}'
     )`;
 

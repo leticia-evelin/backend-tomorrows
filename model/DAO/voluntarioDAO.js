@@ -124,7 +124,7 @@ const selectGeneroByForeignKey = async (idGenero) => {
       return null;
     }
   } catch (error) {
-    console.error('Erro ao buscar o telefone:', error);
+    console.error('Erro ao buscar o gênero:', error);
     throw error;
   }
 };

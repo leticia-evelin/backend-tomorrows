@@ -65,53 +65,6 @@ const inserirVoluntario = async function(dadosVoluntario){
 
 };
 
-// const selecionarTodosVoluntarios = async function(){
-
-//     let dadosVoluntario = await voluntarioDAO.selectAllVoluntarios();
-
-//     let dadosJSON = {};
-
-//     if(dadosVoluntario){
-//         dadosJSON.status = 200;
-//         dadosJSON.count = dadosVoluntario.length;
-
-
-//         // Iterar sobre os voluntários e buscar os números de telefone
-//         for (let i = 0; i < dadosVoluntario.length; i++) {
-//         let telefone = await telefoneDAO.selectTelefoneByForeignKey(dadosVoluntario[i].id_telefone);
-//         let genero = await voluntarioDAO.selectGeneroByForeignKey(dadosVoluntario[i].id_genero);
-    
-//         if(genero){
-//             dadosVoluntario[i].genero = genero.nome;
-//         }    
-
-//         if (telefone) {
-//           // Cria o objeto com o ID do telefone e o número
-//           let telefoneObj = {
-//             id_telefone: dadosVoluntario[i].id_telefone,
-//             numero: telefone.numero,
-//         };
-
-//          // Cria ou atualiza o array de telefones no voluntário
-//             if (dadosVoluntario[i].telefones) {
-//                 dadosVoluntario[i].telefones.push(telefoneObj);
-//             } else {
-//                 dadosVoluntario[i].telefones = [telefoneObj];
-//             }
-//         }
-
-//       }
-
-//         dadosJSON.voluntarios = dadosVoluntario;
-//         return dadosJSON;
-
-//     } else {
-//         return message.ERROR_NOT_FOUND;
-//     }
-//  };
-
- //função para excluir um doador pelo id, irá para o model
-
 const selecionarTodosVoluntarios = async function(){
 
     let dadosVoluntario = await voluntarioDAO.selectAllVoluntarios();
@@ -120,16 +73,62 @@ const selecionarTodosVoluntarios = async function(){
 
     if(dadosVoluntario){
         dadosJSON.status = 200;
-
         dadosJSON.count = dadosVoluntario.length;
 
-        dadosJSON.voluntario = dadosVoluntario;
+
+        // Iterar sobre os voluntários e buscar os números de telefone
+        for (let i = 0; i < dadosVoluntario.length; i++) {
+        // let telefone = await telefoneDAO.selectTelefoneByForeignKey(dadosVoluntario[i].id_telefone);
+        let genero = await voluntarioDAO.selectGeneroByForeignKey(dadosVoluntario[i].id_genero);
+    
+        if(genero){
+            dadosVoluntario[i].genero = genero.nome;
+        }    
+
+        // if (telefone) {
+        //   // Cria o objeto com o ID do telefone e o número
+        //   let telefoneObj = {
+        //     id_telefone: dadosVoluntario[i].id_telefone,
+        //     numero: telefone.numero,
+        // };
+
+        //  // Cria ou atualiza o array de telefones no voluntário
+        //     if (dadosVoluntario[i].telefones) {
+        //         dadosVoluntario[i].telefones.push(telefoneObj);
+        //     } else {
+        //         dadosVoluntario[i].telefones = [telefoneObj];
+        //     }
+        // }
+
+      }
+
+        dadosJSON.voluntarios = dadosVoluntario;
         return dadosJSON;
 
     } else {
         return message.ERROR_NOT_FOUND;
     }
-}
+ };
+
+
+// const selecionarTodosVoluntarios = async function(){
+
+//     let dadosVoluntario = await voluntarioDAO.selectAllVoluntarios();
+
+//     let dadosJSON = {};
+
+//     if(dadosVoluntario){
+//         dadosJSON.status = 200;
+
+//         dadosJSON.count = dadosVoluntario.length;
+
+//         dadosJSON.voluntario = dadosVoluntario;
+//         return dadosJSON;
+
+//     } else {
+//         return message.ERROR_NOT_FOUND;
+//     }
+// }
 
  const deletarVoluntario = async function(idVoluntario){
 

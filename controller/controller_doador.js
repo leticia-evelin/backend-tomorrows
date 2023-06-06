@@ -13,7 +13,49 @@
 
 
  //função para retornar todos os itens da tabela recebidos do model
- const selecionarTodosDoadores = async function(){
+//  const selecionarTodosDoadores = async function(){
+
+//     let dadosDoador = await doadorDAO.selectAllDoador();
+
+//     let dadosJSON = {};
+
+//     if(dadosDoador){
+//         dadosJSON.status = 200;
+
+//         dadosJSON.count = dadosDoador.length;
+
+//           // Iterar sobre os doadores e buscar os números de telefone
+//           for (let i = 0; i < dadosDoador.length; i++) {
+//             let telefone = await telefoneDAO.selectTelefoneByForeignKey(dadosDoador[i].id_telefone);
+    
+//             if (telefone) {
+//                 // Cria o objeto com o ID do telefone e o número
+//                 let telefoneObj = {
+//                   id_telefone: dadosDoador[i].id_telefone,
+//                   numero: telefone.numero,
+//                 };
+
+//              // Cria ou atualiza o array de telefones no doador
+//              if (dadosDoador[i].telefones) {
+//                 dadosDoador[i].telefones.push(telefoneObj);
+//             } else {
+//                 dadosDoador[i].telefones = [telefoneObj];
+//             }
+//         }
+
+//       }  
+
+
+
+//         dadosJSON.doadores = dadosDoador;
+//         return dadosJSON;
+
+//     } else {
+//         return message.ERROR_NOT_FOUND;
+//     }
+//  };
+
+const selecionarTodosDoadores = async function(){
 
     let dadosDoador = await doadorDAO.selectAllDoador();
 
@@ -24,37 +66,13 @@
 
         dadosJSON.count = dadosDoador.length;
 
-          // Iterar sobre os doadores e buscar os números de telefone
-          for (let i = 0; i < dadosDoador.length; i++) {
-            let telefone = await telefoneDAO.selectTelefoneByForeignKey(dadosDoador[i].id_telefone);
-    
-            if (telefone) {
-                // Cria o objeto com o ID do telefone e o número
-                let telefoneObj = {
-                  id_telefone: dadosDoador[i].id_telefone,
-                  numero: telefone.numero,
-                };
-
-             // Cria ou atualiza o array de telefones no doador
-             if (dadosDoador[i].telefones) {
-                dadosDoador[i].telefones.push(telefoneObj);
-            } else {
-                dadosDoador[i].telefones = [telefoneObj];
-            }
-        }
-
-      }  
-
-
-
-        dadosJSON.doadores = dadosDoador;
+        dadosJSON.doador = dadosDoador;
         return dadosJSON;
 
     } else {
         return message.ERROR_NOT_FOUND;
     }
- };
-
+}
 
 //função para receber os dados do app e enviar para o model para inserir novo item
  const inserirDoador = async function(dadosDoador){
@@ -62,7 +80,8 @@
     if(dadosDoador.nome            == '' || dadosDoador.nome            == undefined || dadosDoador.nome.length            > 50 ||
        dadosDoador.email           == '' || dadosDoador.email           == undefined || dadosDoador.email.length          > 255 ||
        dadosDoador.cpf             == '' || dadosDoador.cpf             == undefined || dadosDoador.cpf.length             > 45 ||
-       dadosDoador.data_nascimento == '' || dadosDoador.data_nascimento == undefined || dadosDoador.data_nascimento.length > 10
+       dadosDoador.data_nascimento == '' || dadosDoador.data_nascimento == undefined || dadosDoador.data_nascimento.length > 10 ||
+       dadosDoador.telefone == '' || dadosDoador.telefone == undefined || dadosDoador.telefone.length > 20
     ){
         return message.ERROR_REQUIRED_DATA;
 
@@ -73,22 +92,16 @@
         if(status){
             let dadosJSON = {};
 
-            let ultimoIdTelefone = await telefoneDAO.selectLastId();
-
             let doadorNovoId = await doadorDAO.selectLastId();
-           
+            dadosDoador.id = doadorNovoId;
 
             dadosJSON.status = message.CREATED_ITEM.status;
-            dadosJSON.doador = {
-                ...dadosDoador,
-                id: doadorNovoId,
-                id_telefone: ultimoIdTelefone,
-            }
-           
+            dadosJSON.doador = dadosDoador;
+
             return dadosJSON;
 
         } else 
-            return message.ERROR_INTERNAL_SERVER;    
+            return message.ERROR_INTERNAL_SERVER;   
 
     }
  };
@@ -115,7 +128,8 @@
     if(dadosDoador.nome            == '' || dadosDoador.nome            == undefined || dadosDoador.nome.length            > 50 ||
        dadosDoador.email           == '' || dadosDoador.email           == undefined || dadosDoador.email.length          > 255 ||
        dadosDoador.cpf             == '' || dadosDoador.cpf             == undefined || dadosDoador.cpf.length             > 45 ||
-       dadosDoador.data_nascimento == '' || dadosDoador.data_nascimento == undefined || dadosDoador.data_nascimento.length > 10
+       dadosDoador.data_nascimento == '' || dadosDoador.data_nascimento == undefined || dadosDoador.data_nascimento.length > 10 ||
+       dadosDoador.telefone == '' || dadosDoador.telefone == undefined || dadosDoador.telefone.length > 20
     ){
         return message.ERROR_REQUIRED_DATA;
 

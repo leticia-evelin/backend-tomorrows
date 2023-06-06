@@ -7,7 +7,7 @@
 
 var administradorDAO = require('../model/DAO/administradorDAO.js');
 var message = require('./modulo/config.js');
-var jwt = require('../middleware/middlewareJWT.js')
+
 
 //função para selecionar todos os regitros
 const selecionarTodosAdministradores = async function(){

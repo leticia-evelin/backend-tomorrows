@@ -12,37 +12,64 @@ var prisma = new PrismaClient();
 
 // var telefoneDAO = require('../model/DAO/telefoneDAO.js');
 var telefoneDAO = require('./telefoneDAO.js');
+const { deleteAdministrador } = require('./administradorDAO.js');
 
 //Inserir um novo registro no banco
+// const insertVoluntario = async function(dadosVoluntario){
+
+//     let sql = `insert into tbl_voluntarios
+//     (nome, 
+//      email,
+//      data_nascimento,
+//      cpf,
+//      id_genero,
+//      id_telefone
+//     )
+//     values
+//     ('${dadosVoluntario.nome}',
+//      '${dadosVoluntario.email}',
+//      '${dadosVoluntario.data_nascimento}',
+//      '${dadosVoluntario.cpf}',
+//      '${dadosVoluntario.id_genero}',
+//      (SELECT MAX(id) FROM tbl_telefone)
+//     )`;
+
+//     let result = await prisma.$executeRawUnsafe(sql);
+
+//     if (result){
+//       let ultimoIdTelefone = await telefoneDAO.selectLastId();
+//         return ultimoIdTelefone;
+//     }    
+//     else 
+//         return false;    
+// }
+
 const insertVoluntario = async function(dadosVoluntario){
 
-    let sql = `insert into tbl_voluntarios
-    (nome, 
-     email,
-     data_nascimento,
-     cpf,
-     id_genero,
-     id_telefone
-    )
-    values
-    ('${dadosVoluntario.nome}',
-     '${dadosVoluntario.email}',
-     '${dadosVoluntario.data_nascimento}',
-     '${dadosVoluntario.cpf}',
-     '${dadosVoluntario.id_genero}',
-     (SELECT MAX(id) FROM tbl_telefone)
-    )`;
+  let sql = `insert into tbl_voluntarios
+       (nome, 
+        email,
+        data_nascimento,
+        cpf,
+        telefone,
+        id_genero
+        )
+  values
+  ('${dadosVoluntario.nome}',
+   '${dadosVoluntario.email}',
+   '${dadosVoluntario.data_nascimento}',
+   '${dadosVoluntario.cpf}',
+   '${dadosVoluntario.telefone}',
+   '${dadosVoluntario.id_genero}'
+  )`;
 
-    let result = await prisma.$executeRawUnsafe(sql);
+  let result = await prisma.$executeRawUnsafe(sql);
 
-    if (result){
-      let ultimoIdTelefone = await telefoneDAO.selectLastId();
-        return ultimoIdTelefone;
-    }    
-    else 
-        return false;    
+  if (result)
+      return true;
+  else 
+      return false;    
 }
-
 
 //Listar todos os regitros
 const selectAllVoluntarios = async () => {
@@ -102,32 +129,10 @@ const selectGeneroByForeignKey = async (idGenero) => {
   }
 };
 
-// Função para buscar o telefone pelo ID de chave estrangeira
-// const selectTelefoneByForeignKey = async (idTelefone) => {
-//     try {
-//       const sql = `
-//         SELECT numero
-//         FROM tbl_telefone
-//         WHERE id = ${idTelefone};
-//       `;
-//       const result = await prisma.$queryRawUnsafe(sql);
-  
-//       if (result.length > 0) {
-//         return result[0];
-//       } else {
-//         return null;
-//       }
-//     } catch (error) {
-//       console.error('Erro ao buscar o telefone:', error);
-//       throw error;
-//     }
-//   };
-
 module.exports = {
     insertVoluntario,
     selectAllVoluntarios,
     deleteVoluntario,
     selectLastId,
-    // selectTelefoneByForeignKey,
     selectGeneroByForeignKey
 }

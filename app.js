@@ -30,6 +30,7 @@ const app = express();
 app.use((request, response, next) => {
     response.header('Acess-Control-Allow-Origin', '*');
     response.header('Acess-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+   
 
     app.use(cors());
 
@@ -328,8 +329,6 @@ app.use((request, response, next) => {
             //recebe os dados encaminhados no body da requisição
             let dadosBody = request.body;
 
-            dadosBody.id_ong = request.body.id_ong;
-
             // envia para a controller
             let resultInsertDados = await controllerPatrocinador.inserirPatrocinador(dadosBody);
 
@@ -521,7 +520,7 @@ app.use((request, response, next) => {
     });
 
     //EndPoint: Validação do login do Adm
-    app.post('/v1/tomorrows-water/administrador/login', bodyJSON, async function(request, response) {
+    app.post('/v1/tomorrows-water/administrador/login', cors(), bodyJSON, async function(request, response) {
         const { email, senha } = request.body;
       
         // Chame a função validarAdministrador para validar o email e a senha
@@ -562,8 +561,6 @@ app.use((request, response, next) => {
             let dadosBody = request.body;
 
             dadosBody.id_genero = request.body.id_genero;
-            dadosBody.id_telefone = request.body.id_telefone;
-         
 
             // envia para a controller
             let resultInsertDados = await controllerVoluntario.inserirVoluntario(dadosBody);

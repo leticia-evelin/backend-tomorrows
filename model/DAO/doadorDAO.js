@@ -35,14 +35,14 @@ const insertDoador = async function(dadosDoador){
      email, 
      cpf, 
      data_nascimento,
-     id_telefone
+     telefone
     )
     values
     ('${dadosDoador.nome}',
      '${dadosDoador.email}',
      '${dadosDoador.cpf}',
      '${dadosDoador.data_nascimento}',
-     (SELECT MAX(id) FROM tbl_telefone)
+     '${dadosDoador.telefone}'
 
     )`;
 
@@ -74,7 +74,8 @@ const updateDoador = async function(dadosDoador){
     nome = '${dadosDoador.nome}',
     email = '${dadosDoador.email}',
     cpf = '${dadosDoador.cpf}',
-    data_nascimento = '${dadosDoador.data_nascimento}'
+    data_nascimento = '${dadosDoador.data_nascimento}',
+    telefone = '${dadosDoador.telefone}',
     where id = ${dadosDoador.id}`
 
     let result = await prisma.$executeRawUnsafe(sql);

@@ -15,8 +15,10 @@ var message = require('./modulo/config.js');
 const inserirPatrocinador = async function(dadosPatrocinador){
 
     if(dadosPatrocinador.razao_social == '' || dadosPatrocinador.razao_social == undefined || dadosPatrocinador.razao_social > 80 ||
-       dadosPatrocinador.cnpj == '' || dadosPatrocinador.cnpj == undefined || dadosPatrocinador.cnpj > 45 ||
-       dadosPatrocinador.email == '' || dadosPatrocinador.email == undefined || dadosPatrocinador.email > 255
+       dadosPatrocinador.cnpj == '' || dadosPatrocinador.cnpj == undefined || dadosPatrocinador.cnpj.length > 45 ||
+       dadosPatrocinador.email == '' || dadosPatrocinador.email == undefined || dadosPatrocinador.email.length > 255 ||
+       dadosPatrocinador.telefone    ==  '' || dadosPatrocinador.telefone == null || dadosPatrocinador.telefone.length > 20
+
     ){
         return message.ERROR_REQUIRED_DATA;
 
@@ -26,22 +28,17 @@ const inserirPatrocinador = async function(dadosPatrocinador){
 
         if(status){
             let dadosJSON = {};
-            let ultimoIdTelefone = await telefoneDAO.selectLastId();
 
             let patrocinadorNovoId = await patrocinadorDAO.selectLastId();
+            dadosPatrocinador.id = patrocinadorNovoId;
 
             dadosJSON.status = message.CREATED_ITEM.status;
-            dadosJSON.doador = {
-                ...dadosPatrocinador,
-                id: patrocinadorNovoId,
-                id_telefone: ultimoIdTelefone,
-            }
-           
-            
+            dadosJSON.patrocinador = dadosPatrocinador;
+
             return dadosJSON;
 
         } else 
-            return message.ERROR_INTERNAL_SERVER;    
+            return message.ERROR_INTERNAL_SERVER;  
 
     }
  };
@@ -56,28 +53,6 @@ const inserirPatrocinador = async function(dadosPatrocinador){
     if(dadosPatrocinador){
         dadosJSON.status = 200;
 
-        // Iterar sobre os voluntários e buscar os números de telefone
-        for (let i = 0; i < dadosPatrocinador.length; i++) {
-            let telefone = await telefoneDAO.selectTelefoneByForeignKey(dadosPatrocinador[i].id_telefone);
-    
-            if (telefone) {
-              // Cria o objeto com o ID do telefone e o número
-              let telefoneObj = {
-                id_telefone: dadosPatrocinador[i].id_telefone,
-                numero: telefone.numero,
-            };
-    
-             // Cria ou atualiza o array de telefones no voluntário
-                if (dadosPatrocinador[i].telefones) {
-                    dadosPatrocinador[i].telefones.push(telefoneObj);
-                } else {
-                    dadosPatrocinador[i].telefones = [telefoneObj];
-                }
-            }
-    
-          }
-    
-
         dadosJSON.count = dadosPatrocinador.length;
 
         dadosJSON.patrocinador = dadosPatrocinador;
@@ -86,15 +61,16 @@ const inserirPatrocinador = async function(dadosPatrocinador){
     } else {
         return message.ERROR_NOT_FOUND;
     }
+       
  };
 
  
  const atualizarPatrocinador = async function(dadosPatrocinador, idPatrocinador){
 
     if(dadosPatrocinador.razao_social == '' || dadosPatrocinador.razao_social == undefined || dadosPatrocinador.razao_social > 80 ||
-       dadosPatrocinador.cnpj == '' || dadosPatrocinador.cnpj == undefined || dadosPatrocinador.cnpj > 45 ||
-       dadosPatrocinador.email == '' || dadosPatrocinador.email == undefined || dadosPatrocinador.email > 255 ||       
-       dadosPatrocinador.id_telefone    == null || isNaN(dadosPatrocinador.id_telefone)
+       dadosPatrocinador.cnpj == '' || dadosPatrocinador.cnpj == undefined || dadosPatrocinador.cnpj.length > 45 ||
+       dadosPatrocinador.email == '' || dadosPatrocinador.email == undefined || dadosPatrocinador.email.length > 255 ||       
+       dadosPatrocinador.telefone    ==  '' || dadosPatrocinador.telefone == null || dadosPatrocinador.telefone.length > 20
     )
     {
         return message.ERROR_REQUIRED_DATA;

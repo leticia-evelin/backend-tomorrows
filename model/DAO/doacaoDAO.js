@@ -15,7 +15,8 @@ const insertDoacao = async function(dadosDoacao){
 
     let sql = `insert into tbl_doacao
     (tipo_doacao, 
-     valor
+     valor,
+     id_doador
     )
     values
     ('${dadosDoacao.tipo_doacao}',
@@ -35,7 +36,7 @@ const insertDoacao = async function(dadosDoacao){
 const selectAllDoacoes = async () => {
     // let sql = `select * from tbl_doacao`;
 
-    let sql = `select tbl_doador.cpf, tbl_doacao.tipo_doacao, tbl_doacao.valor, tbl_doador.nome as nome_doador, tbl_doador.email, tbl_doador.telefone
+    let sql = `select tbl_doador.id as id_doador, tbl_doador.cpf, tbl_doacao.tipo_doacao, tbl_doacao.valor, tbl_doador.nome as nome_doador, tbl_doador.email, tbl_doador.telefone
                from tbl_doacao
                     inner join tbl_doador
                         on tbl_doador.id = tbl_doacao.id_doador;  `

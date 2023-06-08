@@ -697,6 +697,6 @@ app.use((request, response, next) => {
     });
 
 
-    app.listen(8080, function(){
+    app.listen(port, function(){
         console.log('Servidor aguardando requisições na porta 8080');
     });         

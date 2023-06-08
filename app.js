@@ -38,6 +38,7 @@ app.use((request, response, next) => {
 
 });
 
+    const port = process.env.PORT || 8080;
 
     //Criando uma const para realizar o processo de padronização de dados 
     //que vão chegar no body da requisição
@@ -434,7 +435,7 @@ app.use((request, response, next) => {
         //Recebe o token encaminhado no header da requisição
         let token = request.headers['x-acess-token'];
 
-        const jwt = require('./middleware/middlewareJWT.js');
+        const jwt = require('../middleware/middlewareJWT.js');
 
         //Valida a autenticidade do token
         const autenticidadeToken = await jwt.validateJWT(token);

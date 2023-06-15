@@ -7,7 +7,6 @@
 
 
 var voluntarioDAO = require('../model/DAO/voluntarioDAO.js');
-var telefoneDAO = require('../model/DAO/telefoneDAO.js');
 var message = require('./modulo/config.js');
 
 

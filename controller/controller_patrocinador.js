@@ -7,7 +7,6 @@
 
 
 var patrocinadorDAO = require('../model/DAO/patrocinadorDAO.js');
-var telefoneDAO = require('../model/DAO/telefoneDAO.js');
 var message = require('./modulo/config.js');
 
 

@@ -11,7 +11,7 @@ var {PrismaClient} = require('@prisma/client');
 var prisma = new PrismaClient();
 
 // var telefoneDAO = require('../model/DAO/telefoneDAO.js');
-var telefoneDAO = require('./telefoneDAO.js');
+
 const { deleteAdministrador } = require('./administradorDAO.js');
 
 //Inserir um novo registro no banco

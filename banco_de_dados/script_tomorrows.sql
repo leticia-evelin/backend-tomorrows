@@ -245,3 +245,5 @@ create table tbl_administrador(
              email varchar(255) not null,
              senha varchar(50) not null
 );
+
+insert into tbl_administrador(nome, email, senha) values ('Ong Tomorrows Water', 'tomorrows.water487@gmail.com', '256020mA')
